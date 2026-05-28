@@ -2,11 +2,11 @@
 project: "HabitLoop"
 context_type: greenfield
 created: 2026-05-28
-updated: 2026-05-28
+updated: 2026-05-28 (consistency review)
 checkpoint:
   current_phase: 8
   phases_completed: [1, 2, 3, 4, 5, 6, 7]
-  frs_drafted: 9
+  frs_drafted: 10
   gray_areas_resolved:
     - topic: "primary persona"
       decision: "Working adult building side-goal habits (fitness, learning, writing); time is scarce and inconsistent"
@@ -53,13 +53,15 @@ Sign-up and sign-in via email + password. Each account is private — habits and
 
 - **Given** a logged-in user who has a habit with at least 2 weeks of completion data
 - **When** they open their habit dashboard
-- **Then** the app displays the current completion rate for the rolling window alongside an adaptive recommendation — either to lower the frequency goal (after a run of failures) or raise it (after a run of successes) — with a plain-language explanation of why
+- **Then** the app displays the current completion rate for the rolling window alongside one of three adaptive outputs — lower the goal (run of failures), raise the goal (run of successes), or maintain (user is hitting their target) — with a plain-language explanation of why
 
 #### Acceptance Criteria
-- Recommendation fires automatically; user does not need to request it
-- The recommendation is never shown when fewer than 2 weeks of data exist for a habit
+- The adaptive output fires automatically on the dashboard; user does not need to request it
+- No adaptive output is shown when fewer than 2 weeks of data exist for a habit; the UI communicates when tracking will begin to produce a recommendation (e.g. "First recommendation in N days")
 - The explanation names the cause (e.g. "You completed 1 of 3 target runs last week and 1 of 3 the week before")
-- A recommendation to lower the goal never suggests fewer than 1 completion per period
+- The "maintain" output displays a confirmation, not silence (e.g. "You're hitting your goal — keep it up")
+- A "lower" recommendation never suggests fewer than 1×/week; when the current goal is already 1×/week and the failure pattern holds, the output is "maintain" with a note that the goal is already at its minimum
+- The user can accept or dismiss a "lower" or "raise" recommendation (FR-009); "maintain" is informational only and requires no action
 
 ---
 
@@ -85,20 +87,24 @@ Sign-up and sign-in via email + password. Each account is private — habits and
 
 ### Habits
 
-- FR-004: A signed-in user can create a habit with a name and a target frequency (e.g. "3×/week"). Priority: must-have
+- FR-004: A signed-in user can create a habit with a name and a target frequency expressed as a whole number of times per week (e.g. "3×/week"; minimum 1×/week, maximum 7×/week). Priority: must-have
   > Socrates: Counter-argument considered: "Let the user just log completions; infer a goal from early behavior." Resolution: kept — without an explicit target frequency, 'failure' and 'success' are undefined, and the adaptive rule cannot compute anything.
+  > Scope fix: frequency unit constrained to N×/week only. Sub-weekly (monthly, fortnightly) and multi-daily frequencies are out of MVP scope — they require different rolling-window math and are not covered by the 2-week window assumption.
 - FR-005: A signed-in user can record a completion for a habit on a specific day (including past days). Priority: must-have
   > Socrates: Counter-argument considered: "Backdating makes the rolling window gameable." Resolution: kept — gaming only affects the user's own recommendations; it's not a product integrity problem at MVP scope. Accurate historical data matters more than preventing self-gaming.
 - FR-006: A signed-in user can view their completion history for a habit. Priority: must-have
   > Socrates: Counter-argument considered: "A raw count ('5 of 9 target days') is enough for MVP instead of a full history view." Resolution: kept as must-have, but scope is intentionally minimal — a simple count or log is sufficient; a full calendar or graph view is out of MVP scope.
+
+- FR-010: A signed-in user can view a list of all their habits and navigate to any individual habit's detail view. Priority: must-have
+  > Consistency fix: the Secondary Success Criterion assumes multiple habits can be tracked simultaneously, but no FR described how the user navigates between them. This FR makes the dashboard/list view explicit.
 
 ### Adaptive Rule
 
 - FR-007: The app evaluates a signed-in user's completion rate for each habit over a rolling 2–3 week window and computes an adaptive recommendation (lower goal / raise goal / maintain). Priority: must-have
   > Socrates: Counter-argument considered: "2–3 weeks is too slow; the user quits before the rule fires." Resolution: kept — the rolling window is the core product insight. The design must set the expectation at habit creation (e.g. "You'll receive your first recommendation after 2 weeks of tracking").
 - FR-008: The app displays the adaptive recommendation with a plain-language explanation of the reason. Priority: must-have
-  > Socrates: Counter-argument considered: "If accept/dismiss (FR-009) is nice-to-have, the explanation is just informational text." Resolution: kept — an explanation of a passive recommendation is still the honest and trustworthy design. The recommendation informs; it does not auto-change the goal.
-- FR-009: A signed-in user can accept or dismiss the adaptive recommendation to explicitly update their goal. Priority: nice-to-have
+- FR-009: A signed-in user can accept or dismiss the adaptive recommendation to explicitly update their goal. Priority: must-have
+  > Consistency fix: promoted from nice-to-have. Without this FR the adaptive rule produces a recommendation but has no mechanism to act on it — the goal never changes and the product's core value is not delivered. The Business Logic states the goal updates only when the user accepts; FR-009 is the only path to that update.
 
 ## Business Logic
 
@@ -106,13 +112,15 @@ The app adjusts a habit's target frequency by comparing the user's completion ra
 
 The rule consumes two user-facing inputs: the logged completions for the habit (each check-off the user records, with its date), and the current target frequency (set at habit creation, e.g. "3×/week"). The window size (number of weeks evaluated) and the run-length threshold (how many consecutive under- or over-performing weeks trigger a recommendation) are product-defined constants for the MVP — not user-configurable.
 
-The rule produces one of three outputs: lower the goal (user's completion rate has been below target for a sustained run), maintain (user is hitting their goal), or raise the goal (completion rate has been above target for a sustained run). The output is surfaced to the user as a recommendation with a plain-language explanation; it does not auto-update the goal without user awareness.
+The rule produces one of three outputs: lower the goal (user's completion rate has been below target for a sustained run), maintain (user is hitting their goal), or raise the goal (completion rate has been above target for a sustained run). The output is surfaced to the user as a recommendation with a plain-language explanation. The goal updates only when the user explicitly accepts the recommendation (FR-009); it never changes silently. The minimum goal is 1×/week — when the goal is already at that floor and a failure pattern persists, the rule outputs "maintain" with a note that the floor has been reached.
+
+Target frequency is expressed exclusively as a whole number of times per week (N×/week, where 1 ≤ N ≤ 7). Sub-weekly or multi-daily frequency units are not supported in MVP — they require different rolling-window semantics than the 2-week window this rule assumes.
 
 **Open question:** What are the specific values for the window size and run-length threshold? (e.g. 2 weeks window, 2 consecutive failures = lower recommendation.) These are domain decisions that must be defined before implementation. Record in Open Questions.
 
 ## Non-Functional Requirements
 
-- A user's check-off, login, and dashboard load are acknowledged within 200 ms of the user's action as perceived in a mainstream desktop browser.
+- Any user action (check-off, login, habit creation) produces a visible acknowledgement within 200 ms as perceived in a mainstream desktop browser. The adaptive recommendation may appear after a short additional delay; if computation takes longer than 2 seconds, the user sees continuous visible progress feedback rather than a frozen screen.
 - The product remains usable on the latest two major versions of Chrome, Firefox, Safari, and Edge.
 - The adaptive recommendation and its explanation are written in plain language — no statistical terms, percentages, or jargon visible to the user.
 - A user's completion history is retained for the lifetime of their account; history loss would break the rolling window rule.
@@ -124,6 +132,7 @@ The rule produces one of three outputs: lower the goal (user's completion rate h
 - **No mobile app.** Web-only for the MVP. The adaptive rule and tracking flow work in a desktop browser; a native mobile app is a distinct product surface for a later version.
 - **No social features.** No sharing, comparisons, leaderboards, or public profiles. Habits are private by default; the product does not incentivize social performance.
 - **No gamification.** No streaks, badges, points, or reward mechanics. The adaptive goal recommendation is the engagement mechanism; streaks are explicitly the anti-pattern this product addresses.
+- **No habit editing or deletion.** A user cannot rename a habit or delete it in MVP. The core loop (create → track → adapt) does not require these operations, and their absence avoids the question of what happens to completion history on delete. Planned for v2.
 
 ## Timeline Budget
 - `product_type: web-app`
@@ -140,3 +149,12 @@ The rule produces one of three outputs: lower the goal (user's completion rate h
 ## Quality Cross-Check
 
 All six greenfield elements present. No gaps. `quality_check_status: accepted` on 2026-05-28.
+
+**Consistency review — 2026-05-28:** 7 issues corrected post-shaping:
+1. FR-009 promoted to must-have (action path required for adaptive rule to deliver value)
+2. FR-010 added — habit list / dashboard navigation (required by secondary criterion)
+3. US-01 extended with "maintain" state and lower-bound floor behavior
+4. FR-004 and Business Logic constrained frequency unit to N×/week only
+5. Business Logic clarified: goal updates only on explicit user acceptance; floor behavior at 1×/week specified
+6. NFR split: 200ms for UI acknowledgement; async recommendation covered separately
+7. Non-Goals: no habit editing or deletion added explicitly
