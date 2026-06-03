@@ -223,15 +223,15 @@ To regenerate types after a future schema change: `npx supabase gen types typesc
 
 #### Automated
 
-- [ ] 1.1 Migration applies cleanly: `npx supabase db reset` exits 0
-- [ ] 1.2 No pending diff: `npx supabase db diff` shows no changes after reset
-- [ ] 1.3 Linting passes: `npm run lint`
+- [x] 1.1 Migration applies cleanly: `npx supabase db reset` exits 0
+- [x] 1.2 No pending diff: `npx supabase db diff` shows no changes after reset
+- [x] 1.3 Linting passes: `npm run lint`
 
 #### Manual
 
-- [ ] 1.4 habits and completions tables visible in Supabase Studio Table Editor
-- [ ] 1.5 Both tables show 4 RLS policies each in Studio → Authentication → Policies
-- [ ] 1.6 `idx_completions_habit_date` index visible on completions in Studio schema view
+- [x] 1.4 habits and completions tables visible in Supabase Studio Table Editor
+- [x] 1.5 Both tables show 4 RLS policies each in Studio → Authentication → Policies
+- [x] 1.6 `idx_completions_habit_date` index visible on completions in Studio schema view
 
 ### Phase 2: TypeScript Types
 
