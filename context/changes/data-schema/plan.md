@@ -237,10 +237,10 @@ To regenerate types after a future schema change: `npx supabase gen types typesc
 
 #### Automated
 
-- [x] 2.1 Type check passes: `npm run lint`
-- [x] 2.2 Types file exists and is non-empty: `test -s src/types/database.ts`
+- [x] 2.1 Type check passes: `npm run lint` — 5ab226e
+- [x] 2.2 Types file exists and is non-empty: `test -s src/types/database.ts` — 5ab226e
 
 #### Manual
 
-- [x] 2.3 `createClient` return type resolves to `SupabaseClient<Database>` in editor
-- [x] 2.4 `supabase.from('habits')` autocomplete shows habits and completions as valid table names
+- [x] 2.3 `createClient` return type resolves to `SupabaseClient<Database>` in editor — 5ab226e
+- [x] 2.4 `supabase.from('habits')` autocomplete shows habits and completions as valid table names — 5ab226e
