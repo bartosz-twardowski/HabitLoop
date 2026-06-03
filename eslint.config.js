@@ -65,6 +65,10 @@ const astroConfig = tseslint.config({
     "astro/no-set-html-directive": "error",
     "astro/no-unused-css-selector": "warn",
     "astro/prefer-class-list-directive": "warn",
+    // astro-eslint-parser crashes on `return Astro.redirect()` in frontmatter when
+    // checksVoidReturn.returns is enabled — the rule can't traverse the synthetic
+    // frontmatter "function" node's parent. Disable return checks for .astro files only.
+    "@typescript-eslint/no-misused-promises": ["error", { checksVoidReturn: { returns: false } }],
   },
 });
 

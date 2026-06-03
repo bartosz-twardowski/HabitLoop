@@ -563,7 +563,7 @@ All manual verification is structured per phase above. The consolidated end-to-e
 
 #### Automated
 
-- [x] 3.1 `npm run lint` passes
+- [x] 3.1 `npm run lint` passes — 4b86e54
 
 #### Manual
 
@@ -576,8 +576,8 @@ All manual verification is structured per phase above. The consolidated end-to-e
 
 #### Automated
 
-- [ ] 4.1 `npm run lint` passes
-- [ ] 4.2 File exists: `src/pages/habits/[id].astro`
+- [x] 4.1 `npm run lint` passes
+- [x] 4.2 File exists: `src/pages/habits/[id].astro`
 
 #### Manual
 

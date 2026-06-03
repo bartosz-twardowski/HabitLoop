@@ -1,0 +1,50 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { createClient } from "@/lib/supabase";
+
+const { id } = Astro.params;
+const supabase = createClient(Astro.request.headers, Astro.cookies);
+
+const user = Astro.locals.user;
+if (!supabase || !id || !user) return Astro.redirect("/dashboard");
+
+const { data: habit } = await supabase
+  .from("habits")
+  .select("id, name, frequency, created_at")
+  .eq("id", id)
+  .eq("user_id", user.id)
+  .maybeSingle();
+
+if (!habit) return Astro.redirect("/dashboard");
+---
+
+<Layout title={habit.name}>
+  <div class="bg-cosmic min-h-screen p-6">
+    <div class="mx-auto max-w-xl">
+      <a href="/dashboard" class="mb-6 inline-flex items-center gap-2 text-sm text-blue-100/60 hover:text-white">
+        ← Back to dashboard
+      </a>
+      <div class="rounded-2xl border border-white/10 bg-white/10 p-8 text-white backdrop-blur-xl">
+        <h1 class="mb-4 bg-gradient-to-r from-blue-200 to-purple-200 bg-clip-text text-2xl font-bold text-transparent">
+          {habit.name}
+        </h1>
+        <dl class="space-y-3 text-sm">
+          <div class="flex justify-between">
+            <dt class="text-blue-100/60">Frequency</dt>
+            <dd>
+              <span
+                class="rounded-full border border-purple-400/40 bg-purple-900/30 px-2.5 py-0.5 text-xs text-purple-200"
+              >
+                {habit.frequency}×/week
+              </span>
+            </dd>
+          </div>
+          <div class="flex justify-between">
+            <dt class="text-blue-100/60">Created</dt>
+            <dd>{new Date(habit.created_at).toLocaleDateString()}</dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+  </div>
+</Layout>
