@@ -3,7 +3,7 @@ project: HabitLoop
 version: 1
 status: draft
 created: 2026-05-30
-updated: 2026-05-30
+updated: 2026-06-03
 prd_version: 1
 main_goal: speed
 top_blocker: decisions
@@ -30,7 +30,7 @@ Habit trackers that punish inconsistency push users to quit. HabitLoop takes a d
 | ID   | Change ID                  | Outcome (user can …)                                             | Prerequisites | PRD refs                                      | Status   |
 | ---- | -------------------------- | ---------------------------------------------------------------- | ------------- | --------------------------------------------- | -------- |
 | F-01 | data-schema                | (foundation) tabele habits + completions z RLS gotowe do użycia  | —             | FR-004, FR-005, FR-007                        | ready    |
-| S-01 | habit-creation-dashboard   | stworzyć nawyk i zobaczyć jego listę na dashboardzie             | F-01          | FR-001, FR-002, FR-003, FR-004, FR-010, US-02 | proposed |
+| S-01 | habit-creation-dashboard   | stworzyć nawyk i zobaczyć jego listę na dashboardzie             | F-01          | FR-001, FR-002, FR-003, FR-004, FR-010, US-02 | done     |
 | S-02 | completion-logging-history | zalogować ukończenie nawyku i zobaczyć historię ukończeń         | S-01          | FR-005, FR-006, US-02                         | proposed |
 | S-03 | adaptive-recommendation    | zobaczyć adaptacyjną rekomendację i zaakceptować lub odrzucić ją | S-01, S-02    | FR-007, FR-008, FR-009, US-01                 | blocked  |
 
@@ -73,7 +73,7 @@ Foundations poniżej zakładają, że te warstwy są obecne i ich **nie** przebu
 - **Blockers:** —
 - **Unknowns:** —
 - **Risk:** Strony UI dla sign-up i sign-in mogą wymagać drobnych uzupełnień (komponent `SignInForm.tsx` istnieje, ale powiązane strony `.astro` mogą być niekompletne); zakres do odkrycia przez `/10x-plan`.
-- **Status:** proposed
+- **Status:** done
 
 ### S-02: Logowanie ukończeń i historia nawyku
 
@@ -125,4 +125,4 @@ Foundations poniżej zakładają, że te warstwy są obecne i ich **nie** przebu
 
 ## Done
 
-(Puste przy pierwszej generacji. `/10x-archive` doda wpisy tutaj gdy zmiana z pasującym Change ID zostanie zarchiwizowana.)
+- **S-01: użytkownik może stworzyć nawyk z nazwą i częstotliwością tygodniową oraz zobaczyć listę swoich nawyków na dashboardzie i przejść do widoku szczegółów dowolnego nawyku** — Archived 2026-06-03 → `context/archive/2026-06-03-habit-creation-dashboard/`. Lesson: —.
