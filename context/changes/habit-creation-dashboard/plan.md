@@ -536,8 +536,8 @@ All manual verification is structured per phase above. The consolidated end-to-e
 
 #### Automated
 
-- [x] 1.1 `npm run lint` passes with no new errors
-- [x] 1.2 File exists: `src/pages/api/habits/index.ts`
+- [x] 1.1 `npm run lint` passes with no new errors — 5471380
+- [x] 1.2 File exists: `src/pages/api/habits/index.ts` — 5471380
 
 #### Manual
 
@@ -549,8 +549,8 @@ All manual verification is structured per phase above. The consolidated end-to-e
 
 #### Automated
 
-- [ ] 2.1 `npm run lint` passes
-- [ ] 2.2 Files exist: `src/components/habits/HabitForm.tsx`, `src/pages/dashboard/new.astro`
+- [x] 2.1 `npm run lint` passes
+- [x] 2.2 Files exist: `src/components/habits/HabitForm.tsx`, `src/pages/dashboard/new.astro`
 
 #### Manual
 
