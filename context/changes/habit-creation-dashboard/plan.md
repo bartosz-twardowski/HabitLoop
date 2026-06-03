@@ -541,9 +541,9 @@ All manual verification is structured per phase above. The consolidated end-to-e
 
 #### Manual
 
-- [ ] 1.3 Valid POST redirects to `/dashboard`
-- [ ] 1.4 Missing name → error redirect to `/dashboard/new?error=...`
-- [ ] 1.5 Frequency out of range → error redirect
+- [x] 1.3 Valid POST redirects to `/dashboard` — 3198802
+- [x] 1.4 Missing name → error redirect to `/dashboard/new?error=...` — 3198802
+- [x] 1.5 Frequency out of range → error redirect — 3198802
 
 ### Phase 2: Habit Creation Form + Page
 
@@ -554,10 +554,10 @@ All manual verification is structured per phase above. The consolidated end-to-e
 
 #### Manual
 
-- [ ] 2.3 `/dashboard/new` renders with name field + 7 toggle buttons (3 pre-selected)
-- [ ] 2.4 Empty name submit → client-side error, no page reload
-- [ ] 2.5 Valid submit → redirects to `/dashboard`
-- [ ] 2.6 `?error=...` param → error banner renders
+- [x] 2.3 `/dashboard/new` renders with name field + 7 toggle buttons (3 pre-selected) — 3198802
+- [x] 2.4 Empty name submit → client-side error, no page reload — 3198802
+- [x] 2.5 Valid submit → redirects to `/dashboard` — 3198802
+- [x] 2.6 `?error=...` param → error banner renders — 3198802
 
 ### Phase 3: Dashboard Habits List + Empty State
 
@@ -567,10 +567,10 @@ All manual verification is structured per phase above. The consolidated end-to-e
 
 #### Manual
 
-- [ ] 3.2 No-habits user sees empty state with CTA
-- [ ] 3.3 CTA navigates to `/dashboard/new`
-- [ ] 3.4 After creating a habit, row appears with name, `N×/week` badge, date
-- [ ] 3.5 Multiple habits render newest-first
+- [x] 3.2 No-habits user sees empty state with CTA — 3198802
+- [x] 3.3 CTA navigates to `/dashboard/new` — 3198802
+- [x] 3.4 After creating a habit, row appears with name, `N×/week` badge, date — 3198802
+- [x] 3.5 Multiple habits render newest-first — 3198802
 
 ### Phase 4: Habit Detail Stub + Route Protection
 
@@ -581,17 +581,17 @@ All manual verification is structured per phase above. The consolidated end-to-e
 
 #### Manual
 
-- [ ] 4.3 Habit row click → `/habits/<uuid>` renders name, badge, date, back link
-- [ ] 4.4 Unknown UUID → redirects to `/dashboard`
-- [ ] 4.5 Unauthenticated direct URL → redirects to `/auth/signin`
+- [x] 4.3 Habit row click → `/habits/<uuid>` renders name, badge, date, back link — 3198802
+- [x] 4.4 Unknown UUID → redirects to `/dashboard` — 3198802
+- [x] 4.5 Unauthenticated direct URL → redirects to `/auth/signin` — 3198802
 
 ### Phase 5: Signin Redirect Fix
 
 #### Automated
 
-- [x] 5.1 `npm run lint` passes
+- [x] 5.1 `npm run lint` passes — 3198802
 
 #### Manual
 
-- [ ] 5.2 Sign in → lands on `/dashboard`
-- [ ] 5.3 Full US-02 flow passes end-to-end
+- [x] 5.2 Sign in → lands on `/dashboard` — 3198802
+- [x] 5.3 Full US-02 flow passes end-to-end — 3198802
