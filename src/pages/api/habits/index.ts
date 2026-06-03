@@ -15,7 +15,7 @@ export const POST: APIRoute = async (context) => {
   const form = await context.request.formData();
   const name = ((form.get("name") as string | null) ?? "").trim();
   const freqRaw = form.get("frequency") as string | null;
-  const frequency = freqRaw !== null ? parseInt(freqRaw, 10) : NaN;
+  const frequency = freqRaw !== null ? Number(freqRaw) : NaN;
 
   // Runtime validation per L-003
   if (!name) {

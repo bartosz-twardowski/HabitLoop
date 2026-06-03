@@ -3,10 +3,17 @@ import Layout from "@/layouts/Layout.astro";
 import { createClient } from "@/lib/supabase";
 
 const supabase = createClient(Astro.request.headers, Astro.cookies);
-const habits = supabase
-  ? ((await supabase.from("habits").select("id, name, frequency, created_at").order("created_at", { ascending: false }))
-      .data ?? [])
-  : [];
+const user = Astro.locals.user;
+const habits =
+  supabase && user
+    ? ((
+        await supabase
+          .from("habits")
+          .select("id, name, frequency, created_at")
+          .eq("user_id", user.id)
+          .order("created_at", { ascending: false })
+      ).data ?? [])
+    : [];
 ---
 
 <Layout title="Dashboard">
