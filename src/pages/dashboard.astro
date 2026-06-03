@@ -1,27 +1,65 @@
 ---
 import Layout from "@/layouts/Layout.astro";
+import { createClient } from "@/lib/supabase";
 
-const { user } = Astro.locals;
+const supabase = createClient(Astro.request.headers, Astro.cookies);
+const habits = supabase
+  ? ((await supabase.from("habits").select("id, name, frequency, created_at").order("created_at", { ascending: false }))
+      .data ?? [])
+  : [];
 ---
 
 <Layout title="Dashboard">
-  <div class="bg-cosmic flex min-h-screen items-center justify-center p-4">
-    <div class="rounded-2xl border border-white/10 bg-white/10 p-8 text-center text-white backdrop-blur-xl">
-      <h1 class="mb-4 bg-gradient-to-r from-blue-200 to-purple-200 bg-clip-text text-3xl font-bold text-transparent">
-        Dashboard
-      </h1>
-      <p class="text-blue-100/80">
-        Welcome, <span class="font-semibold text-white">{user?.email}</span>
-      </p>
-      <p class="mt-2 text-sm text-blue-100/50">This page is only for authenticated users.</p>
-      <form method="POST" action="/api/auth/signout" class="mt-6">
-        <button
-          type="submit"
-          class="rounded-lg border border-white/20 bg-white/10 px-4 py-2 text-sm transition-colors hover:bg-white/20"
+  <div class="bg-cosmic min-h-screen p-6">
+    <div class="mx-auto max-w-2xl">
+      <div class="mb-6 flex items-center justify-between">
+        <h1 class="bg-gradient-to-r from-blue-200 to-purple-200 bg-clip-text text-3xl font-bold text-transparent">
+          My Habits
+        </h1>
+        <a
+          href="/dashboard/new"
+          class="rounded-lg border border-white/20 bg-white/10 px-4 py-2 text-sm text-white transition-colors hover:bg-white/20"
         >
-          Sign out
-        </button>
-      </form>
+          + New habit
+        </a>
+      </div>
+
+      {
+        habits.length === 0 ? (
+          <div class="rounded-2xl border border-white/10 bg-white/10 p-10 text-center text-white backdrop-blur-xl">
+            <div class="mb-4 text-5xl">🌱</div>
+            <h2 class="mb-2 text-xl font-semibold text-white">No habits yet</h2>
+            <p class="mb-6 text-sm text-blue-100/60">
+              Start by creating your first habit and tracking it week by week.
+            </p>
+            <a
+              href="/dashboard/new"
+              class="inline-block rounded-lg bg-purple-600 px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-purple-500"
+            >
+              Create your first habit
+            </a>
+          </div>
+        ) : (
+          <ul class="space-y-3">
+            {habits.map((habit) => (
+              <li>
+                <a
+                  href={`/habits/${habit.id}`}
+                  class="flex items-center justify-between rounded-xl border border-white/10 bg-white/10 px-5 py-4 text-white transition-colors hover:bg-white/20"
+                >
+                  <span class="font-medium">{habit.name}</span>
+                  <span class="flex items-center gap-3 text-sm text-blue-100/60">
+                    <span class="rounded-full border border-purple-400/40 bg-purple-900/30 px-2.5 py-0.5 text-xs text-purple-200">
+                      {habit.frequency}×/week
+                    </span>
+                    <span>{new Date(habit.created_at).toLocaleDateString()}</span>
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        )
+      }
     </div>
   </div>
 </Layout>
