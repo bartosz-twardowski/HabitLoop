@@ -3,7 +3,7 @@ project: HabitLoop
 version: 1
 status: draft
 created: 2026-05-30
-updated: 2026-06-03
+updated: 2026-06-05
 prd_version: 1
 main_goal: speed
 top_blocker: decisions
@@ -31,7 +31,7 @@ Habit trackers that punish inconsistency push users to quit. HabitLoop takes a d
 | ---- | -------------------------- | ---------------------------------------------------------------- | ------------- | --------------------------------------------- | -------- |
 | F-01 | data-schema                | (foundation) tabele habits + completions z RLS gotowe do użycia  | —             | FR-004, FR-005, FR-007                        | ready    |
 | S-01 | habit-creation-dashboard   | stworzyć nawyk i zobaczyć jego listę na dashboardzie             | F-01          | FR-001, FR-002, FR-003, FR-004, FR-010, US-02 | done     |
-| S-02 | completion-logging-history | zalogować ukończenie nawyku i zobaczyć historię ukończeń         | S-01          | FR-005, FR-006, US-02                         | proposed |
+| S-02 | completion-logging-history | zalogować ukończenie nawyku i zobaczyć historię ukończeń         | S-01          | FR-005, FR-006, US-02                         | done     |
 | S-03 | adaptive-recommendation    | zobaczyć adaptacyjną rekomendację i zaakceptować lub odrzucić ją | S-01, S-02    | FR-007, FR-008, FR-009, US-01                 | blocked  |
 
 ## Baseline
@@ -85,7 +85,7 @@ Foundations poniżej zakładają, że te warstwy są obecne i ich **nie** przebu
 - **Blockers:** —
 - **Unknowns:** —
 - **Risk:** Logowanie z backdatowaniem (FR-005) wymaga walidacji daty — przekazanie niepoprawnej daty nie może zaburzyć okna historycznego, z którego korzysta reguła adaptacyjna w S-03.
-- **Status:** proposed
+- **Status:** done
 
 ### S-03: Adaptacyjna rekomendacja
 
@@ -126,3 +126,4 @@ Foundations poniżej zakładają, że te warstwy są obecne i ich **nie** przebu
 ## Done
 
 - **S-01: użytkownik może stworzyć nawyk z nazwą i częstotliwością tygodniową oraz zobaczyć listę swoich nawyków na dashboardzie i przejść do widoku szczegółów dowolnego nawyku** — Archived 2026-06-03 → `context/archive/2026-06-03-habit-creation-dashboard/`. Lesson: —.
+- **S-02: użytkownik może zaznaczyć ukończenie nawyku na wybrany dzień (w tym przeszłe) oraz zobaczyć historię swoich ukończeń w widoku szczegółów nawyku** — Archived 2026-06-05 → `context/archive/2026-06-05-completion-logging-history/`. Lesson: —.
