@@ -251,24 +251,24 @@ Creates the `/habits/[id]/log` page as the primary habit view and turns the exis
 
 #### Automated
 
-- [x] 1.1 Migration applies cleanly: `npx supabase db reset`
-- [x] 1.2 Linting passes: `npm run lint`
+- [x] 1.1 Migration applies cleanly: `npx supabase db reset` — 2e92fa0
+- [x] 1.2 Linting passes: `npm run lint` — 2e92fa0
 
 #### Manual
 
-- [x] 1.3 POST logs a completion and returns 200
-- [x] 1.4 POST with a duplicate day returns 409
-- [x] 1.5 POST with an invalid date format returns 400
-- [x] 1.6 POST with another user's habit_id returns 403
-- [x] 1.7 DELETE removes a completion and returns 200
-- [x] 1.8 DELETE for a non-existent date returns 403
+- [x] 1.3 POST logs a completion and returns 200 — 2e92fa0
+- [x] 1.4 POST with a duplicate day returns 409 — 2e92fa0
+- [x] 1.5 POST with an invalid date format returns 400 — 2e92fa0
+- [x] 1.6 POST with another user's habit_id returns 403 — 2e92fa0
+- [x] 1.7 DELETE removes a completion and returns 200 — 2e92fa0
+- [x] 1.8 DELETE for a non-existent date returns 403 — 2e92fa0
 
 ### Phase 2: CompletionGrid React Component
 
 #### Automated
 
-- [ ] 2.1 npm run lint passes
-- [ ] 2.2 npx astro check passes (no type errors)
+- [x] 2.1 npm run lint passes
+- [x] 2.2 npx astro check passes (no type errors)
 
 #### Manual
 
