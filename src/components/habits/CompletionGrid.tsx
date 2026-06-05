@@ -50,7 +50,8 @@ export default function CompletionGrid({ habitId, habitCreatedAt, frequency, ini
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [pendingDate, setPendingDate] = useState<string | null>(null);
 
-  const createdDate = new Date(habitCreatedAt);
+  const [cy, cm, cd] = habitCreatedAt.split("-").map(Number);
+  const createdDate = new Date(cy, cm - 1, cd);
   const today = new Date();
   const todayStr = toLocalISODate(today);
   const createdStr = toLocalISODate(createdDate);

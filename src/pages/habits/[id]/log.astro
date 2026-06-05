@@ -50,7 +50,7 @@ const completions = (completionsData ?? []).map((c) => c.completed_on);
         <CompletionGrid
           client:load
           habitId={habit.id}
-          habitCreatedAt={habit.created_at}
+          habitCreatedAt={habit.created_at.slice(0, 10)}
           frequency={habit.frequency}
           initialCompletions={completions}
         />

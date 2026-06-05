@@ -37,7 +37,7 @@ export const DELETE: APIRoute = async (context) => {
     return Response.json({ error: error.message }, { status: 500 });
   }
 
-  if (count === 0) {
+  if (count === null || count === 0) {
     return Response.json({ error: "Completion not found" }, { status: 403 });
   }
 
