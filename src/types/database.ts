@@ -72,6 +72,7 @@ export type Database = {
           frequency: number
           id: string
           name: string
+          recommendation_dismissed_at: string | null
           user_id: string
         }
         Insert: {
@@ -79,6 +80,7 @@ export type Database = {
           frequency: number
           id?: string
           name: string
+          recommendation_dismissed_at?: string | null
           user_id: string
         }
         Update: {
@@ -86,6 +88,7 @@ export type Database = {
           frequency?: number
           id?: string
           name?: string
+          recommendation_dismissed_at?: string | null
           user_id?: string
         }
         Relationships: []
@@ -231,3 +234,4 @@ export const Constants = {
     Enums: {},
   },
 } as const
+
