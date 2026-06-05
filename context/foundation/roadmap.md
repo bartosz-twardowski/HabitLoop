@@ -32,7 +32,7 @@ Habit trackers that punish inconsistency push users to quit. HabitLoop takes a d
 | F-01 | data-schema                | (foundation) tabele habits + completions z RLS gotowe do użycia  | —             | FR-004, FR-005, FR-007                        | ready    |
 | S-01 | habit-creation-dashboard   | stworzyć nawyk i zobaczyć jego listę na dashboardzie             | F-01          | FR-001, FR-002, FR-003, FR-004, FR-010, US-02 | done     |
 | S-02 | completion-logging-history | zalogować ukończenie nawyku i zobaczyć historię ukończeń         | S-01          | FR-005, FR-006, US-02                         | done     |
-| S-03 | adaptive-recommendation    | zobaczyć adaptacyjną rekomendację i zaakceptować lub odrzucić ją | S-01, S-02    | FR-007, FR-008, FR-009, US-01                 | blocked  |
+| S-03 | adaptive-recommendation    | zobaczyć adaptacyjną rekomendację i zaakceptować lub odrzucić ją | S-01, S-02    | FR-007, FR-008, FR-009, US-01                 | done     |
 
 ## Baseline
 
@@ -98,7 +98,7 @@ Foundations poniżej zakładają, że te warstwy są obecne i ich **nie** przebu
 - **Unknowns:**
   - Jakie są konkretne wartości dla rozmiaru okna rolling window i progu run-length (ile kolejnych tygodni poniżej/powyżej celu odpala rekomendację)? Np. "okno 2-tygodniowe; 2 kolejne tygodnie poniżej celu = rekomendacja 'obniż'." — Owner: user. Block: yes.
 - **Risk:** Reguła adaptacyjna jest algorytmicznie prosta po ustaleniu stałych, ale wymaga pokrycia edge-cases: cel już na minimum 1×/week, brak 2 tygodni danych (brak rekomendacji), stan "maintain" musi wyświetlić potwierdzenie (nie ciszę). Bez stałych implementacja nie może ruszyć.
-- **Status:** blocked
+- **Status:** done
 
 ## Backlog Handoff
 
@@ -127,3 +127,4 @@ Foundations poniżej zakładają, że te warstwy są obecne i ich **nie** przebu
 
 - **S-01: użytkownik może stworzyć nawyk z nazwą i częstotliwością tygodniową oraz zobaczyć listę swoich nawyków na dashboardzie i przejść do widoku szczegółów dowolnego nawyku** — Archived 2026-06-03 → `context/archive/2026-06-03-habit-creation-dashboard/`. Lesson: —.
 - **S-02: użytkownik może zaznaczyć ukończenie nawyku na wybrany dzień (w tym przeszłe) oraz zobaczyć historię swoich ukończeń w widoku szczegółów nawyku** — Archived 2026-06-05 → `context/archive/2026-06-05-completion-logging-history/`. Lesson: —.
+- **S-03: użytkownik może zobaczyć na dashboardzie obliczoną rekomendację adaptacyjną (obniż / utrzymaj / podnieś cel) z prostym wyjaśnieniem przyczyny oraz zaakceptować lub odrzucić sugerowaną zmianę celu** — Archived 2026-06-05 → `context/archive/2026-06-05-adaptive-recommendation/`. Lesson: —.
