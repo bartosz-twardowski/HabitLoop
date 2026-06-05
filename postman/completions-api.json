@@ -1,0 +1,427 @@
+{
+  "info": {
+    "name": "HabitLoop — Completions API (Phase 1)",
+    "description": "Manual verification collection for POST /api/habits/:id/completions and DELETE /api/habits/:id/completions/:date.\n\n## Setup before running\n\n1. Start local dev server: `npm run dev` (default: http://localhost:4321)\n2. Start local Supabase: `npx supabase start`\n3. Sign in via the browser at http://localhost:4321/auth/signin\n4. Open DevTools → Application → Cookies → copy the `sb-*-auth-token` cookie value\n5. Set the `auth_cookie` collection variable to that value\n6. Create a habit via the UI, copy its UUID from the URL, set `habit_id` collection variable\n\n## Variables\n\n| Variable     | Example value                        | Where to get it                          |\n|--------------|--------------------------------------|------------------------------------------|\n| base_url     | http://localhost:4321                | Dev server address                        |\n| habit_id     | 550e8400-e29b-41d4-a716-446655440000 | URL after creating a habit in the UI     |\n| auth_cookie  | base64-encoded token from browser    | DevTools → Application → Cookies         |\n| test_date    | 2026-06-05                           | Any valid past date (YYYY-MM-DD)         |",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "base_url", "value": "http://localhost:4321", "type": "string" },
+    { "key": "habit_id", "value": "PASTE_HABIT_UUID_HERE", "type": "string" },
+    { "key": "auth_cookie", "value": "PASTE_AUTH_COOKIE_HERE", "type": "string" },
+    { "key": "test_date", "value": "2026-06-01", "type": "string" },
+    { "key": "_logged_completion_id", "value": "", "type": "string" }
+  ],
+  "item": [
+    {
+      "name": "POST — log completion",
+      "item": [
+        {
+          "name": "1.3 POST valid date → 200",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Body has id and completed_on', () => {",
+                  "  const body = pm.response.json();",
+                  "  pm.expect(body).to.have.property('id');",
+                  "  pm.expect(body.completed_on).to.eql(pm.collectionVariables.get('test_date'));",
+                  "  pm.collectionVariables.set('_logged_completion_id', body.id);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Cookie", "value": "{{auth_cookie}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"completed_on\": \"{{test_date}}\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": "{{base_url}}/api/habits/{{habit_id}}/completions"
+          }
+        },
+        {
+          "name": "1.4 POST duplicate date → 409",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 409', () => pm.response.to.have.status(409));",
+                  "pm.test('Error message: This day is already logged', () => {",
+                  "  const body = pm.response.json();",
+                  "  pm.expect(body.error).to.eql('This day is already logged');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Cookie", "value": "{{auth_cookie}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"completed_on\": \"{{test_date}}\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": "{{base_url}}/api/habits/{{habit_id}}/completions"
+          }
+        },
+        {
+          "name": "1.5 POST invalid date format → 400",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 400', () => pm.response.to.have.status(400));",
+                  "pm.test('Body has error field', () => {",
+                  "  const body = pm.response.json();",
+                  "  pm.expect(body).to.have.property('error');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Cookie", "value": "{{auth_cookie}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"completed_on\": \"not-a-date\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": "{{base_url}}/api/habits/{{habit_id}}/completions"
+          }
+        },
+        {
+          "name": "1.5b POST missing completed_on field → 400",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 400', () => pm.response.to.have.status(400));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Cookie", "value": "{{auth_cookie}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": "{{base_url}}/api/habits/{{habit_id}}/completions"
+          }
+        },
+        {
+          "name": "1.5c POST date with time component → 400",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 400 — YYYY-MM-DDTHH:mm:ss is not YYYY-MM-DD', () => pm.response.to.have.status(400));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Cookie", "value": "{{auth_cookie}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"completed_on\": \"2026-06-01T12:00:00\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": "{{base_url}}/api/habits/{{habit_id}}/completions"
+          }
+        },
+        {
+          "name": "1.6 POST another user's habit_id → 403",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 403', () => pm.response.to.have.status(403));",
+                  "pm.test('Body has error field', () => {",
+                  "  const body = pm.response.json();",
+                  "  pm.expect(body).to.have.property('error');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Cookie", "value": "{{auth_cookie}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"completed_on\": \"2026-06-02\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": "{{base_url}}/api/habits/00000000-0000-0000-0000-000000000000/completions"
+          }
+        },
+        {
+          "name": "1.6b POST unauthenticated → 401",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 401', () => pm.response.to.have.status(401));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"completed_on\": \"2026-06-02\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": "{{base_url}}/api/habits/{{habit_id}}/completions"
+          }
+        }
+      ]
+    },
+    {
+      "name": "DELETE — unlog completion",
+      "item": [
+        {
+          "name": "1.7 DELETE existing date → 200",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Body ok: true', () => {",
+                  "  const body = pm.response.json();",
+                  "  pm.expect(body.ok).to.be.true;",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Cookie", "value": "{{auth_cookie}}" }
+            ],
+            "url": "{{base_url}}/api/habits/{{habit_id}}/completions/{{test_date}}"
+          }
+        },
+        {
+          "name": "1.8 DELETE non-existent date → 403",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 403', () => pm.response.to.have.status(403));",
+                  "pm.test('Body has error field', () => {",
+                  "  const body = pm.response.json();",
+                  "  pm.expect(body).to.have.property('error');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Cookie", "value": "{{auth_cookie}}" }
+            ],
+            "url": "{{base_url}}/api/habits/{{habit_id}}/completions/1999-01-01"
+          }
+        },
+        {
+          "name": "1.8b DELETE invalid date format → 400",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 400', () => pm.response.to.have.status(400));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Cookie", "value": "{{auth_cookie}}" }
+            ],
+            "url": "{{base_url}}/api/habits/{{habit_id}}/completions/not-a-date"
+          }
+        },
+        {
+          "name": "1.8c DELETE unauthenticated → 401",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 401', () => pm.response.to.have.status(401));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{base_url}}/api/habits/{{habit_id}}/completions/2026-06-01"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Full flow — log then unlog",
+      "item": [
+        {
+          "name": "FLOW 1 — Log a backdated day",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "pm.collectionVariables.set('_flow_date', '2026-05-15');",
+                  "pm.test('completed_on matches', () => pm.expect(body.completed_on).to.eql('2026-05-15'));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Cookie", "value": "{{auth_cookie}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"completed_on\": \"2026-05-15\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": "{{base_url}}/api/habits/{{habit_id}}/completions"
+          }
+        },
+        {
+          "name": "FLOW 2 — Duplicate the same day → 409",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 409', () => pm.response.to.have.status(409));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Cookie", "value": "{{auth_cookie}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"completed_on\": \"2026-05-15\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": "{{base_url}}/api/habits/{{habit_id}}/completions"
+          }
+        },
+        {
+          "name": "FLOW 3 — Unlog the same day → 200",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('ok: true', () => pm.expect(pm.response.json().ok).to.be.true);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Cookie", "value": "{{auth_cookie}}" }
+            ],
+            "url": "{{base_url}}/api/habits/{{habit_id}}/completions/2026-05-15"
+          }
+        },
+        {
+          "name": "FLOW 4 — Delete again (already gone) → 403",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 403 — row already deleted', () => pm.response.to.have.status(403));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Cookie", "value": "{{auth_cookie}}" }
+            ],
+            "url": "{{base_url}}/api/habits/{{habit_id}}/completions/2026-05-15"
+          }
+        }
+      ]
+    }
+  ]
+}
