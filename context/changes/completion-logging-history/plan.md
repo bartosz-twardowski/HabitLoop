@@ -267,29 +267,29 @@ Creates the `/habits/[id]/log` page as the primary habit view and turns the exis
 
 #### Automated
 
-- [x] 2.1 npm run lint passes
-- [x] 2.2 npx astro check passes (no type errors)
+- [x] 2.1 npm run lint passes — d691516
+- [x] 2.2 npx astro check passes (no type errors) — d691516
 
 #### Manual
 
-- [ ] 2.3 Grid renders all weeks from habit creation to today
-- [ ] 2.4 Clicking an unlogged day marks it optimistically and calls POST
-- [ ] 2.5 Clicking a logged day unmarks it and calls DELETE
-- [ ] 2.6 Network error reverts the optimistic change
-- [ ] 2.7 Today's cell is visually distinct
-- [ ] 2.8 Days before habit creation are non-interactive
-- [ ] 2.9 "Log today" button works correctly
+- [x] 2.3 Grid renders all weeks from habit creation to today
+- [x] 2.4 Clicking an unlogged day marks it optimistically and calls POST
+- [x] 2.5 Clicking a logged day unmarks it and calls DELETE
+- [x] 2.6 Network error reverts the optimistic change
+- [x] 2.7 Today's cell is visually distinct
+- [x] 2.8 Days before habit creation are non-interactive
+- [x] 2.9 "Log today" button works correctly
 
 ### Phase 3: Log Page + Redirect
 
 #### Automated
 
-- [ ] 3.1 npm run lint passes
-- [ ] 3.2 npx astro check passes
+- [x] 3.1 npm run lint passes
+- [x] 3.2 npx astro check passes
 
 #### Manual
 
-- [ ] 3.3 GET /habits/:id redirects to /habits/:id/log
-- [ ] 3.4 /habits/:id/log displays habit data and the completion grid
-- [ ] 3.5 Full E2E flow: create habit → log completions → refresh → data persisted
-- [ ] 3.6 Unauthenticated user is redirected to signin
+- [x] 3.3 GET /habits/:id redirects to /habits/:id/log
+- [x] 3.4 /habits/:id/log displays habit data and the completion grid
+- [x] 3.5 Full E2E flow: create habit → log completions → refresh → data persisted
+- [x] 3.6 Unauthenticated user is redirected to signin
