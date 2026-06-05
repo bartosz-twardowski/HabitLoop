@@ -391,14 +391,14 @@ Render each habit using `<HabitCard client:load ... />`. The empty-state ("No ha
 
 #### Automated
 
-- [x] 3.1 Linting passes: `npm run lint`
-- [x] 3.2 Type check passes: `npx astro check`
+- [x] 3.1 Linting passes: `npm run lint` — b91bb8b
+- [x] 3.2 Type check passes: `npx astro check` — b91bb8b
 
 #### Manual
 
-- [x] 3.3 Dashboard shows recommendation for habit with ≥ 2 full weeks of data
-- [x] 3.4 Accept updates frequency immediately (optimistic) and removes recommendation banner
-- [x] 3.5 Dismiss hides recommendation; reappears on dashboard after new completion logged
-- [x] 3.6 Habit with < 2 full weeks shows countdown
-- [x] 3.7 Frequency=1 failure: shows maintain-at-min (no Accept button)
-- [x] 3.8 Full E2E: create habit → backdate completions for 2+ weeks → see recommendation → accept → frequency updated
+- [x] 3.3 Dashboard shows recommendation for habit with ≥ 2 full weeks of data — b91bb8b
+- [x] 3.4 Accept updates frequency immediately (optimistic) and removes recommendation banner — b91bb8b
+- [x] 3.5 Dismiss hides recommendation; reappears on dashboard after new completion logged — b91bb8b
+- [x] 3.6 Habit with < 2 full weeks shows countdown — b91bb8b
+- [x] 3.7 Frequency=1 failure: shows maintain-at-min (no Accept button) — b91bb8b
+- [x] 3.8 Full E2E: create habit → backdate completions for 2+ weeks → see recommendation → accept → frequency updated — b91bb8b
