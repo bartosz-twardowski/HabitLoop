@@ -5,24 +5,27 @@ interface Props {
   id: string;
   name: string;
   frequency: number;
-  createdAt: string;
   recommendation: RecommendationResult;
 }
 
 export default function HabitCard({ id, name, frequency: initialFrequency, recommendation: initialRec }: Props) {
   const [currentFrequency, setCurrentFrequency] = useState(initialFrequency);
   const [rec, setRec] = useState<RecommendationResult>(initialRec);
+  // Tracks last successfully committed state — used for revert on network error
+  const [stableFrequency, setStableFrequency] = useState(initialFrequency);
+  const [stableRec, setStableRec] = useState<RecommendationResult>(initialRec);
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
 
   async function handleAccept() {
     if (rec.kind !== "lower" && rec.kind !== "raise") return;
     const newFrequency = rec.newFrequency;
+    const maintainRec: RecommendationResult = { kind: "maintain", explanation: "Goal updated." };
     // Optimistic update
-    setCurrentFrequency(newFrequency);
-    setRec({ kind: "maintain", explanation: "Goal updated." });
     setPending(true);
     setError(null);
+    setCurrentFrequency(newFrequency);
+    setRec(maintainRec);
 
     try {
       const res = await fetch(`/api/habits/${id}`, {
@@ -31,9 +34,12 @@ export default function HabitCard({ id, name, frequency: initialFrequency, recom
         body: JSON.stringify({ frequency: newFrequency }),
       });
       if (!res.ok) throw new Error(await res.text());
+      // Commit stable state on success
+      setStableFrequency(newFrequency);
+      setStableRec(maintainRec);
     } catch {
-      setCurrentFrequency(initialFrequency);
-      setRec(initialRec);
+      setCurrentFrequency(stableFrequency);
+      setRec(stableRec);
       setError("Failed to update goal. Please try again.");
     } finally {
       setPending(false);
@@ -42,17 +48,19 @@ export default function HabitCard({ id, name, frequency: initialFrequency, recom
 
   async function handleDismiss() {
     if (rec.kind !== "lower" && rec.kind !== "raise") return;
-    const prevRec = rec;
+    const dismissedRec: RecommendationResult = { ...rec, suppressed: true };
     // Optimistic update
-    setRec({ ...rec, suppressed: true });
     setPending(true);
     setError(null);
+    setRec(dismissedRec);
 
     try {
       const res = await fetch(`/api/habits/${id}/dismiss-recommendation`, { method: "POST" });
       if (!res.ok) throw new Error(await res.text());
+      // Commit stable state on success
+      setStableRec(dismissedRec);
     } catch {
-      setRec(prevRec);
+      setRec(stableRec);
       setError("Failed to dismiss. Please try again.");
     } finally {
       setPending(false);
@@ -81,30 +89,31 @@ export default function HabitCard({ id, name, frequency: initialFrequency, recom
           </p>
         )}
 
-        {(rec.kind === "lower" || rec.kind === "raise" || rec.kind === "maintain") &&
-          !("suppressed" in rec && rec.suppressed) && (
-            <div className="space-y-2">
-              <p className="text-xs text-blue-100/70">{rec.explanation}</p>
-              {showActions && (
-                <div className="flex gap-2">
-                  <button
-                    onClick={handleAccept}
-                    disabled={pending}
-                    className="rounded-md bg-purple-600 px-3 py-1 text-xs font-medium text-white transition-colors hover:bg-purple-500 disabled:opacity-50"
-                  >
-                    Accept
-                  </button>
-                  <button
-                    onClick={handleDismiss}
-                    disabled={pending}
-                    className="rounded-md border border-white/20 bg-white/10 px-3 py-1 text-xs font-medium text-white transition-colors hover:bg-white/20 disabled:opacity-50"
-                  >
-                    Dismiss
-                  </button>
-                </div>
-              )}
-            </div>
-          )}
+        {rec.kind === "maintain" && <p className="text-xs text-blue-100/70">{rec.explanation}</p>}
+
+        {(rec.kind === "lower" || rec.kind === "raise") && !rec.suppressed && (
+          <div className="space-y-2">
+            <p className="text-xs text-blue-100/70">{rec.explanation}</p>
+            {showActions && (
+              <div className="flex gap-2">
+                <button
+                  onClick={handleAccept}
+                  disabled={pending}
+                  className="rounded-md bg-purple-600 px-3 py-1 text-xs font-medium text-white transition-colors hover:bg-purple-500 disabled:opacity-50"
+                >
+                  Accept
+                </button>
+                <button
+                  onClick={handleDismiss}
+                  disabled={pending}
+                  className="rounded-md border border-white/20 bg-white/10 px-3 py-1 text-xs font-medium text-white transition-colors hover:bg-white/20 disabled:opacity-50"
+                >
+                  Dismiss
+                </button>
+              </div>
+            )}
+          </div>
+        )}
 
         {error && <p className="mt-1 text-xs text-red-400">{error}</p>}
       </div>
