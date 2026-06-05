@@ -1,19 +1,40 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import { createClient } from "@/lib/supabase";
+import { computeRecommendation, getThreeWeeksAgoDateStr } from "@/lib/recommendation";
+import HabitCard from "@/components/habits/HabitCard";
 
 const supabase = createClient(Astro.request.headers, Astro.cookies);
 const user = Astro.locals.user;
+
+const today = new Date();
+
 const habits =
   supabase && user
     ? ((
         await supabase
           .from("habits")
-          .select("id, name, frequency, created_at")
+          .select("id, name, frequency, created_at, recommendation_dismissed_at")
           .eq("user_id", user.id)
           .order("created_at", { ascending: false })
       ).data ?? [])
     : [];
+
+const { data: recentCompletions } =
+  supabase && user
+    ? await supabase
+        .from("completions")
+        .select("habit_id, completed_on, created_at")
+        .eq("user_id", user.id)
+        .gte("completed_on", getThreeWeeksAgoDateStr(today))
+    : { data: [] };
+
+const byHabit = Object.groupBy(recentCompletions ?? [], (c) => c.habit_id);
+
+const habitsWithRec = habits.map((h) => ({
+  ...h,
+  recommendation: computeRecommendation(h, byHabit[h.id] ?? [], today),
+}));
 ---
 
 <Layout title="Dashboard">
@@ -32,7 +53,7 @@ const habits =
       </div>
 
       {
-        habits.length === 0 ? (
+        habitsWithRec.length === 0 ? (
           <div class="rounded-2xl border border-white/10 bg-white/10 p-10 text-center text-white backdrop-blur-xl">
             <div class="mb-4 text-5xl">🌱</div>
             <h2 class="mb-2 text-xl font-semibold text-white">No habits yet</h2>
@@ -48,20 +69,16 @@ const habits =
           </div>
         ) : (
           <ul class="space-y-3">
-            {habits.map((habit) => (
+            {habitsWithRec.map((habit) => (
               <li>
-                <a
-                  href={`/habits/${habit.id}`}
-                  class="flex items-center justify-between rounded-xl border border-white/10 bg-white/10 px-5 py-4 text-white transition-colors hover:bg-white/20"
-                >
-                  <span class="font-medium">{habit.name}</span>
-                  <span class="flex items-center gap-3 text-sm text-blue-100/60">
-                    <span class="rounded-full border border-purple-400/40 bg-purple-900/30 px-2.5 py-0.5 text-xs text-purple-200">
-                      {habit.frequency}×/week
-                    </span>
-                    <span>{new Date(habit.created_at).toLocaleDateString()}</span>
-                  </span>
-                </a>
+                <HabitCard
+                  client:load
+                  id={habit.id}
+                  name={habit.name}
+                  frequency={habit.frequency}
+                  createdAt={habit.created_at}
+                  recommendation={habit.recommendation}
+                />
               </li>
             ))}
           </ul>

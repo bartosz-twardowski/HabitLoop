@@ -375,30 +375,30 @@ Render each habit using `<HabitCard client:load ... />`. The empty-state ("No ha
 
 #### Automated
 
-- [x] 2.1 Linting passes: `npm run lint`
-- [x] 2.2 Type check passes: `npx astro check`
+- [x] 2.1 Linting passes: `npm run lint` — 12c93ed
+- [x] 2.2 Type check passes: `npx astro check` — 12c93ed
 
 #### Manual
 
-- [x] 2.3 `computeRecommendation` with 1 bad week → returns `{ kind: "lower", newFrequency: frequency - 1 }`
-- [x] 2.4 Frequency=1 + bad week → `{ kind: "maintain" }` with floor note
-- [x] 2.5 Frequency=7 + good week → `{ kind: "maintain" }` with ceiling note
-- [x] 2.6 < 2 available weeks → `{ kind: "insufficient_data", daysUntilFirst: N }` where N > 0
-- [x] 2.7 Dismissed + no newer completions → `suppressed: true`
-- [x] 2.8 Dismissed + newer completion exists → `suppressed: false`
+- [x] 2.3 `computeRecommendation` with 1 bad week → returns `{ kind: "lower", newFrequency: frequency - 1 }` — 12c93ed
+- [x] 2.4 Frequency=1 + bad week → `{ kind: "maintain" }` with floor note — 12c93ed
+- [x] 2.5 Frequency=7 + good week → `{ kind: "maintain" }` with ceiling note — 12c93ed
+- [x] 2.6 < 2 available weeks → `{ kind: "insufficient_data", daysUntilFirst: N }` where N > 0 — 12c93ed
+- [x] 2.7 Dismissed + no newer completions → `suppressed: true` — 12c93ed
+- [x] 2.8 Dismissed + newer completion exists → `suppressed: false` — 12c93ed
 
 ### Phase 3: Dashboard UI
 
 #### Automated
 
-- [ ] 3.1 Linting passes: `npm run lint`
-- [ ] 3.2 Type check passes: `npx astro check`
+- [x] 3.1 Linting passes: `npm run lint`
+- [x] 3.2 Type check passes: `npx astro check`
 
 #### Manual
 
-- [ ] 3.3 Dashboard shows recommendation for habit with ≥ 2 full weeks of data
-- [ ] 3.4 Accept updates frequency immediately (optimistic) and removes recommendation banner
-- [ ] 3.5 Dismiss hides recommendation; reappears on dashboard after new completion logged
-- [ ] 3.6 Habit with < 2 full weeks shows countdown
-- [ ] 3.7 Frequency=1 failure: shows maintain-at-min (no Accept button)
-- [ ] 3.8 Full E2E: create habit → backdate completions for 2+ weeks → see recommendation → accept → frequency updated
+- [x] 3.3 Dashboard shows recommendation for habit with ≥ 2 full weeks of data
+- [x] 3.4 Accept updates frequency immediately (optimistic) and removes recommendation banner
+- [x] 3.5 Dismiss hides recommendation; reappears on dashboard after new completion logged
+- [x] 3.6 Habit with < 2 full weeks shows countdown
+- [x] 3.7 Frequency=1 failure: shows maintain-at-min (no Accept button)
+- [x] 3.8 Full E2E: create habit → backdate completions for 2+ weeks → see recommendation → accept → frequency updated
