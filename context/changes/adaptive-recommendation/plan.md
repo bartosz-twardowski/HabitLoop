@@ -359,33 +359,33 @@ Render each habit using `<HabitCard client:load ... />`. The empty-state ("No ha
 
 #### Automated
 
-- [x] 1.1 Migration applies cleanly: `npx supabase db reset`
-- [x] 1.2 `recommendation_dismissed_at: string | null` visible in regenerated `src/types/database.ts`
-- [x] 1.3 Linting passes: `npm run lint`
-- [x] 1.4 Type check passes: `npx astro check`
+- [x] 1.1 Migration applies cleanly: `npx supabase db reset` — 63f98bd
+- [x] 1.2 `recommendation_dismissed_at: string | null` visible in regenerated `src/types/database.ts` — 63f98bd
+- [x] 1.3 Linting passes: `npm run lint` — 63f98bd
+- [x] 1.4 Type check passes: `npx astro check` — 63f98bd
 
 #### Manual
 
-- [x] 1.5 `PATCH /api/habits/:id` with valid frequency → 200, updated in DB
-- [x] 1.6 `PATCH` with `frequency: 0` → 400
-- [x] 1.7 `PATCH` for another user's habit → 403
-- [x] 1.8 `POST /api/habits/:id/dismiss-recommendation` → 200, `recommendation_dismissed_at` set in DB
+- [x] 1.5 `PATCH /api/habits/:id` with valid frequency → 200, updated in DB — 63f98bd
+- [x] 1.6 `PATCH` with `frequency: 0` → 400 — 63f98bd
+- [x] 1.7 `PATCH` for another user's habit → 403 — 63f98bd
+- [x] 1.8 `POST /api/habits/:id/dismiss-recommendation` → 200, `recommendation_dismissed_at` set in DB — 63f98bd
 
 ### Phase 2: Recommendation Engine
 
 #### Automated
 
-- [ ] 2.1 Linting passes: `npm run lint`
-- [ ] 2.2 Type check passes: `npx astro check`
+- [x] 2.1 Linting passes: `npm run lint`
+- [x] 2.2 Type check passes: `npx astro check`
 
 #### Manual
 
-- [ ] 2.3 `computeRecommendation` with 1 bad week → returns `{ kind: "lower", newFrequency: frequency - 1 }`
-- [ ] 2.4 Frequency=1 + bad week → `{ kind: "maintain" }` with floor note
-- [ ] 2.5 Frequency=7 + good week → `{ kind: "maintain" }` with ceiling note
-- [ ] 2.6 < 2 available weeks → `{ kind: "insufficient_data", daysUntilFirst: N }` where N > 0
-- [ ] 2.7 Dismissed + no newer completions → `suppressed: true`
-- [ ] 2.8 Dismissed + newer completion exists → `suppressed: false`
+- [x] 2.3 `computeRecommendation` with 1 bad week → returns `{ kind: "lower", newFrequency: frequency - 1 }`
+- [x] 2.4 Frequency=1 + bad week → `{ kind: "maintain" }` with floor note
+- [x] 2.5 Frequency=7 + good week → `{ kind: "maintain" }` with ceiling note
+- [x] 2.6 < 2 available weeks → `{ kind: "insufficient_data", daysUntilFirst: N }` where N > 0
+- [x] 2.7 Dismissed + no newer completions → `suppressed: true`
+- [x] 2.8 Dismissed + newer completion exists → `suppressed: false`
 
 ### Phase 3: Dashboard UI
 
