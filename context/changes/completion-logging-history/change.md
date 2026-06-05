@@ -1,7 +1,7 @@
 ---
 change_id: completion-logging-history
 title: Completion logging history
-status: implementing
+status: implemented
 created: 2026-06-05
 updated: 2026-06-05
 archived_at: null
