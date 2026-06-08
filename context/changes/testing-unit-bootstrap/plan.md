@@ -331,12 +331,12 @@ None. Unit tests run in < 1 second for this scope. No filesystem, network, or da
 
 #### Automated
 
-- [x] 3.1 `npm test` passes with all tests green (recommendation + validation)
-- [x] 3.2 `npm run build` succeeds
-- [x] 3.3 `npm run lint` passes
-- [x] 3.4 `npx astro check` passes
+- [x] 3.1 `npm test` passes with all tests green (recommendation + validation) — 9409c09
+- [x] 3.2 `npm run build` succeeds — 9409c09
+- [x] 3.3 `npm run lint` passes — 9409c09
+- [x] 3.4 `npx astro check` passes — 9409c09
 
 #### Manual
 
-- [x] 3.5 API handlers return same error messages and status codes as before refactor
-- [x] 3.6 Validation call sites in handlers read cleanly
+- [x] 3.5 API handlers return same error messages and status codes as before refactor — 9409c09
+- [x] 3.6 Validation call sites in handlers read cleanly — 9409c09
