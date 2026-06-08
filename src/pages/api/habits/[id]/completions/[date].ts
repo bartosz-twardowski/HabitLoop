@@ -31,7 +31,7 @@ export const DELETE: APIRoute = async (context) => {
     .delete({ count: "exact" })
     .eq("habit_id", id)
     .eq("user_id", user.id)
-    .eq("completed_on", date);
+    .eq("completed_on", dateResult.date);
 
   if (error) {
     return Response.json({ error: error.message }, { status: 500 });

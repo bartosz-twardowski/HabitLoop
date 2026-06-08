@@ -150,10 +150,11 @@ describe("getThreeWeeksAgoDateStr", () => {
     expect(result).toBe("2026-05-18");
   });
 
-  it("matches the start of the oldest week from getCompletedWeeks", () => {
-    const today = new Date("2026-06-10T12:00:00Z");
-    const weeks = getCompletedWeeks(today, 3);
-    expect(getThreeWeeksAgoDateStr(today)).toBe(weeks[weeks.length - 1].start);
+  it("matches the start of the oldest completed week (hand-calculated)", () => {
+    // 3 completed weeks before Wed 2026-06-10: Jun 1-7, May 25-31, May 18-24
+    // Oldest week start = 2026-05-18
+    const result = getThreeWeeksAgoDateStr(new Date("2026-06-10T12:00:00Z"));
+    expect(result).toBe("2026-05-18");
   });
 });
 
