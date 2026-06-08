@@ -172,6 +172,14 @@ return createServerClient<Database>(SUPABASE_URL, SUPABASE_ANON_KEY, { ... });
 
 No other changes to this file.
 
+#### 3. ESLint ignore for generated types (addendum)
+
+**File**: `eslint.config.js`
+
+**Intent**: Exclude the generated `src/types/database.ts` from linting — Supabase CLI output fails the project's `strictTypeChecked` rules.
+
+**Contract**: Add `{ ignores: ["src/types/database.ts"] }` to the config array. Discovered during implementation; not in the original plan scope.
+
 ### Success Criteria
 
 #### Automated Verification
