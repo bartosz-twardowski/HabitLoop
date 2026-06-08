@@ -1,7 +1,6 @@
 import type { APIRoute } from "astro";
 import { createClient } from "@/lib/supabase";
-
-const ISO_DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
+import { validateCompletionDate } from "@/lib/validation";
 
 export const POST: APIRoute = async (context) => {
   const supabase = createClient(context.request.headers, context.cookies);
@@ -26,11 +25,9 @@ export const POST: APIRoute = async (context) => {
     return Response.json({ error: "Invalid JSON body" }, { status: 400 });
   }
 
-  const completed_on = (body as Record<string, unknown> | null)?.completed_on;
-
-  // Runtime validation per L-003
-  if (typeof completed_on !== "string" || !ISO_DATE_RE.test(completed_on) || isNaN(Date.parse(completed_on))) {
-    return Response.json({ error: "completed_on must be a valid ISO date (YYYY-MM-DD)" }, { status: 400 });
+  const dateResult = validateCompletionDate((body as Record<string, unknown> | null)?.completed_on);
+  if (!dateResult.valid) {
+    return Response.json({ error: dateResult.error }, { status: 400 });
   }
 
   // Ownership check per L-001 — verify before insert
@@ -42,7 +39,7 @@ export const POST: APIRoute = async (context) => {
 
   const { data, error } = await supabase
     .from("completions")
-    .insert({ habit_id: id, user_id: user.id, completed_on })
+    .insert({ habit_id: id, user_id: user.id, completed_on: dateResult.date })
     .select("id, completed_on")
     .single();
 

@@ -1,7 +1,6 @@
 import type { APIRoute } from "astro";
 import { createClient } from "@/lib/supabase";
-
-const ISO_DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
+import { validateCompletionDate } from "@/lib/validation";
 
 export const DELETE: APIRoute = async (context) => {
   const supabase = createClient(context.request.headers, context.cookies);
@@ -20,7 +19,8 @@ export const DELETE: APIRoute = async (context) => {
   }
 
   // Runtime validation per L-003
-  if (!ISO_DATE_RE.test(date) || isNaN(Date.parse(date))) {
+  const dateResult = validateCompletionDate(date);
+  if (!dateResult.valid) {
     return Response.json({ error: "date must be a valid ISO date (YYYY-MM-DD)" }, { status: 400 });
   }
 

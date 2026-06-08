@@ -318,25 +318,25 @@ None. Unit tests run in < 1 second for this scope. No filesystem, network, or da
 
 #### Automated
 
-- [x] 2.1 `npm test` passes with all recommendation tests green
-- [x] 2.2 `npm run lint` passes
-- [x] 2.3 `npm run build` succeeds
+- [x] 2.1 `npm test` passes with all recommendation tests green — e9058ec
+- [x] 2.2 `npm run lint` passes — e9058ec
+- [x] 2.3 `npm run build` succeeds — e9058ec
 
 #### Manual
 
-- [x] 2.4 Review test output — scenario names clearly describe business case
-- [x] 2.5 Verify no assertion recomputes rolling window — all expected values are literals
+- [x] 2.4 Review test output — scenario names clearly describe business case — e9058ec
+- [x] 2.5 Verify no assertion recomputes rolling window — all expected values are literals — e9058ec
 
 ### Phase 3: Validation Extract + Unit Tests
 
 #### Automated
 
-- [ ] 3.1 `npm test` passes with all tests green (recommendation + validation)
-- [ ] 3.2 `npm run build` succeeds
-- [ ] 3.3 `npm run lint` passes
-- [ ] 3.4 `npx astro check` passes
+- [x] 3.1 `npm test` passes with all tests green (recommendation + validation)
+- [x] 3.2 `npm run build` succeeds
+- [x] 3.3 `npm run lint` passes
+- [x] 3.4 `npx astro check` passes
 
 #### Manual
 
-- [ ] 3.5 API handlers return same error messages and status codes as before refactor
-- [ ] 3.6 Validation call sites in handlers read cleanly
+- [x] 3.5 API handlers return same error messages and status codes as before refactor
+- [x] 3.6 Validation call sites in handlers read cleanly

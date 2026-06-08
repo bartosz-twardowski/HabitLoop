@@ -1,5 +1,6 @@
 import type { APIRoute } from "astro";
 import { createClient } from "@/lib/supabase";
+import { validateFrequency } from "@/lib/validation";
 
 export const POST: APIRoute = async (context) => {
   const supabase = createClient(context.request.headers, context.cookies);
@@ -22,11 +23,12 @@ export const POST: APIRoute = async (context) => {
     return context.redirect(`/dashboard/new?error=${encodeURIComponent("Habit name is required")}`);
   }
 
-  if (!Number.isInteger(frequency) || frequency < 1 || frequency > 7) {
+  const freqResult = validateFrequency(frequency);
+  if (!freqResult.valid) {
     return context.redirect(`/dashboard/new?error=${encodeURIComponent("Frequency must be between 1 and 7")}`);
   }
 
-  const { error } = await supabase.from("habits").insert({ name, frequency, user_id: user.id });
+  const { error } = await supabase.from("habits").insert({ name, frequency: freqResult.frequency, user_id: user.id });
 
   if (error) {
     return context.redirect(`/dashboard/new?error=${encodeURIComponent(error.message)}`);

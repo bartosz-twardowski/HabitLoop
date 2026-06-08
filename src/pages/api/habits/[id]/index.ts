@@ -1,5 +1,6 @@
 import type { APIRoute } from "astro";
 import { createClient } from "@/lib/supabase";
+import { validateFrequency } from "@/lib/validation";
 
 export const PATCH: APIRoute = async (context) => {
   const supabase = createClient(context.request.headers, context.cookies);
@@ -24,11 +25,9 @@ export const PATCH: APIRoute = async (context) => {
     return Response.json({ error: "Invalid JSON body" }, { status: 400 });
   }
 
-  const frequency = (body as Record<string, unknown> | null)?.frequency;
-
-  // Runtime validation per L-003: integer, 1–7
-  if (typeof frequency !== "number" || !Number.isInteger(frequency) || frequency < 1 || frequency > 7) {
-    return Response.json({ error: "frequency must be an integer between 1 and 7" }, { status: 400 });
+  const freqResult = validateFrequency((body as Record<string, unknown> | null)?.frequency);
+  if (!freqResult.valid) {
+    return Response.json({ error: freqResult.error }, { status: 400 });
   }
 
   // Ownership check per L-001 — verify before update
@@ -40,7 +39,7 @@ export const PATCH: APIRoute = async (context) => {
 
   const { data, error } = await supabase
     .from("habits")
-    .update({ frequency, recommendation_dismissed_at: null })
+    .update({ frequency: freqResult.frequency, recommendation_dismissed_at: null })
     .eq("id", id)
     .select("id, frequency")
     .single();
