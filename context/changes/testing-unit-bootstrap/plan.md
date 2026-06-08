@@ -306,26 +306,26 @@ None. Unit tests run in < 1 second for this scope. No filesystem, network, or da
 
 #### Automated
 
-- [x] 1.1 `npm test` runs and smoke test passes
-- [x] 1.2 `npm run build` succeeds
-- [x] 1.3 `npm run lint` passes
+- [x] 1.1 `npm test` runs and smoke test passes — 6bb14cf
+- [x] 1.2 `npm run build` succeeds — 6bb14cf
+- [x] 1.3 `npm run lint` passes — 6bb14cf
 
 #### Manual
 
-- [x] 1.4 `npm run test:watch` starts in watch mode and re-runs on file save
+- [x] 1.4 `npm run test:watch` starts in watch mode and re-runs on file save — 6bb14cf
 
 ### Phase 2: Recommendation Unit Tests
 
 #### Automated
 
-- [ ] 2.1 `npm test` passes with all recommendation tests green
-- [ ] 2.2 `npm run lint` passes
-- [ ] 2.3 `npm run build` succeeds
+- [x] 2.1 `npm test` passes with all recommendation tests green
+- [x] 2.2 `npm run lint` passes
+- [x] 2.3 `npm run build` succeeds
 
 #### Manual
 
-- [ ] 2.4 Review test output — scenario names clearly describe business case
-- [ ] 2.5 Verify no assertion recomputes rolling window — all expected values are literals
+- [x] 2.4 Review test output — scenario names clearly describe business case
+- [x] 2.5 Verify no assertion recomputes rolling window — all expected values are literals
 
 ### Phase 3: Validation Extract + Unit Tests
 

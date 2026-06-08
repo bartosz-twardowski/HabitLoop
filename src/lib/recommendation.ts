@@ -5,7 +5,7 @@ export type RecommendationResult =
   | { kind: "insufficient_data"; daysUntilFirst: number };
 
 // Returns Monday 00:00 UTC of the week containing d
-function getMondayUTC(d: Date): Date {
+export function getMondayUTC(d: Date): Date {
   const day = d.getUTCDay(); // 0=Sun, 1=Mon, …, 6=Sat
   const daysFromMonday = day === 0 ? 6 : day - 1;
   const monday = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate() - daysFromMonday));
@@ -13,7 +13,7 @@ function getMondayUTC(d: Date): Date {
 }
 
 // "YYYY-MM-DD" from UTC fields — avoids timezone off-by-one
-function toISODateStr(d: Date): string {
+export function toISODateStr(d: Date): string {
   const y = d.getUTCFullYear();
   const m = String(d.getUTCMonth() + 1).padStart(2, "0");
   const day = String(d.getUTCDate()).padStart(2, "0");
@@ -22,7 +22,7 @@ function toISODateStr(d: Date): string {
 
 // Last `count` complete Mon–Sun weeks before today, most-recent first
 // A "complete" week ends strictly before today's Monday
-function getCompletedWeeks(today: Date, count: number): { start: string; end: string }[] {
+export function getCompletedWeeks(today: Date, count: number): { start: string; end: string }[] {
   const thisMonday = getMondayUTC(today);
   const weeks: { start: string; end: string }[] = [];
   for (let i = 1; i <= count; i++) {
@@ -34,7 +34,7 @@ function getCompletedWeeks(today: Date, count: number): { start: string; end: st
 }
 
 // Count completions whose completed_on falls in [weekStart, weekEnd] (inclusive, string comparison)
-function countInWeek(completedOns: string[], weekStart: string, weekEnd: string): number {
+export function countInWeek(completedOns: string[], weekStart: string, weekEnd: string): number {
   return completedOns.filter((d) => d >= weekStart && d <= weekEnd).length;
 }
 
@@ -105,7 +105,7 @@ export function computeRecommendation(
   return { kind: "maintain", explanation: "You're hitting your goal — keep it up!" };
 }
 
-function isSuppressed(dismissedAt: string | null, completions: { created_at: string }[]): boolean {
+export function isSuppressed(dismissedAt: string | null, completions: { created_at: string }[]): boolean {
   if (dismissedAt === null) return false;
   return !completions.some((c) => c.created_at > dismissedAt);
 }
