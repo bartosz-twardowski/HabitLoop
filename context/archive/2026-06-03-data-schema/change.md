@@ -1,8 +1,9 @@
 ---
 change_id: data-schema
 title: "Data Schema: habits + completions tables with RLS"
-status: impl_reviewed
+status: archived
 created: 2026-06-03
+archived_at: 2026-06-08T07:05:02Z
 updated: 2026-06-08
 roadmap_id: F-01
 prd_refs: FR-004, FR-005, FR-007
