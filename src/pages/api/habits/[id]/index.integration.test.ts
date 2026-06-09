@@ -5,7 +5,7 @@ vi.mock("@/lib/supabase", () => ({
   createClient: vi.fn(),
 }));
 
-describe("PATCH /api/habits/[id] — ownership enforcement", () => {
+describe("PATCH /api/habits/[id] — accept recommendation (ownership enforcement)", () => {
   beforeEach(() => {
     vi.resetModules();
     vi.clearAllMocks();

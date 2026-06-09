@@ -32,6 +32,7 @@ describe("DELETE /api/habits/[id]/completions/[date] — ownership enforcement",
     expect(response.status).toBe(200);
     const body: unknown = await response.json();
     expect(body).toEqual({ ok: true });
+    expect(client.eq).toHaveBeenCalledWith("user_id", "owner-uuid");
   });
 
   it("attacker receives 403 with no completion data", async () => {

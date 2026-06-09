@@ -34,6 +34,7 @@ describe("POST /api/habits/[id]/completions — ownership enforcement", () => {
     expect(response.status).toBe(201);
     const body: unknown = await response.json();
     expect(body).toEqual({ id: "comp-1", completed_on: "2026-06-09" });
+    expect(client.eq).toHaveBeenCalledWith("user_id", "owner-uuid");
   });
 
   it("attacker receives 403 with no completion data", async () => {
@@ -149,6 +150,7 @@ describe("POST /api/habits/[id]/completions — date edge cases", () => {
     expect(response.status).toBe(201);
     const body: unknown = await response.json();
     expect((body as Record<string, unknown>).completed_on).toBe("2020-01-01");
+    expect(client.eq).toHaveBeenCalledWith("user_id", "owner-uuid");
   });
 
   it("stores a week-boundary Sunday date as-is without rounding to Monday", async () => {
@@ -175,6 +177,7 @@ describe("POST /api/habits/[id]/completions — date edge cases", () => {
     const body: unknown = await response.json();
     expect((body as Record<string, unknown>).completed_on).toBe("2026-06-07");
     expect(client.from).toHaveBeenCalled();
+    expect(client.eq).toHaveBeenCalledWith("user_id", "owner-uuid");
   });
 
   it("returns 400 when completed_on uses slashes instead of dashes", async () => {
