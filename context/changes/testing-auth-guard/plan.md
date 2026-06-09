@@ -176,10 +176,10 @@ Add a `describe("unauthenticated")` block to each of the 5 protected API endpoin
 
 #### Automated
 
-- [x] 2.1 All tests pass: npm run test
-- [x] 2.2 Typecheck passes: npm run lint
+- [x] 2.1 All tests pass: npm run test — 515b7ef
+- [x] 2.2 Typecheck passes: npm run lint — 515b7ef
 
 #### Manual
 
-- [x] 2.3 All 5 unauthenticated describe blocks report green
-- [x] 2.4 No Supabase query called in unauthenticated tests
+- [x] 2.3 All 5 unauthenticated describe blocks report green — 515b7ef
+- [x] 2.4 No Supabase query called in unauthenticated tests — 515b7ef
