@@ -10,7 +10,7 @@ export const POST: APIRoute = async (context) => {
 
   const user = context.locals.user;
   if (!user) {
-    return context.redirect("/auth/signin");
+    return Response.json({ error: "Unauthorized" }, { status: 401 });
   }
 
   const form = await context.request.formData();
