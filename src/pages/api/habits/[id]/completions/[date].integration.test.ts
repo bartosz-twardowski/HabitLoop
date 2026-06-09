@@ -58,6 +58,29 @@ describe("DELETE /api/habits/[id]/completions/[date] — ownership enforcement",
     expect(Object.keys(body as Record<string, unknown>)).toEqual(["error"]);
     expect(client.eq).toHaveBeenCalledWith("user_id", "attacker-uuid");
   });
+
+  it("returns 500 when database returns an error", async () => {
+    const client = createMockSupabaseClient({
+      results: {
+        "completions.then": { count: null, error: { message: "DB error" } },
+      },
+    });
+    setupSupabaseMock(client);
+
+    const { DELETE } = await import("@/pages/api/habits/[id]/completions/[date]");
+
+    const ctx = createMockContext({
+      user: { id: "owner-uuid" },
+      params: { id: "habit-1", date: "2026-06-09" },
+      method: "DELETE",
+    });
+
+    const response = await DELETE(ctx as never);
+
+    expect(response.status).toBe(500);
+    const body: unknown = await response.json();
+    expect(body).toEqual({ error: "DB error" });
+  });
 });
 
 describe("DELETE /api/habits/[id]/completions/[date] — unauthenticated", () => {
