@@ -239,4 +239,29 @@ describe("POST /api/habits/[id]/completions — date edge cases", () => {
     expect(body).toEqual({ error: "completed_on must be a valid ISO date (YYYY-MM-DD)" });
     expect(client.from).not.toHaveBeenCalled();
   });
+
+  it("returns 500 when the database returns a non-duplicate error on insert", async () => {
+    const client = createMockSupabaseClient({
+      results: {
+        "habits.maybeSingle": { data: { id: "habit-1" }, error: null },
+        "completions.single": { data: null, error: { message: "DB error" } },
+      },
+    });
+    setupSupabaseMock(client);
+
+    const { POST } = await import("@/pages/api/habits/[id]/completions/index");
+
+    const ctx = createMockContext({
+      user: { id: "owner-uuid" },
+      params: { id: "habit-1" },
+      method: "POST",
+      body: { completed_on: "2026-06-09" },
+    });
+
+    const response = await POST(ctx as never);
+
+    expect(response.status).toBe(500);
+    const body: unknown = await response.json();
+    expect(body).toEqual({ error: "DB error" });
+  });
 });
