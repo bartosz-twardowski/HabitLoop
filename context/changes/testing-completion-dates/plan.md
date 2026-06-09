@@ -159,8 +159,8 @@ before proceeding.
 
 #### Automated
 
-- [x] 1.1 All tests pass: npm run test
-- [x] 1.2 Typecheck passes: npm run lint
+- [x] 1.1 All tests pass: npm run test — f37d213
+- [x] 1.2 Typecheck passes: npm run lint — f37d213
 
 #### Manual
 
