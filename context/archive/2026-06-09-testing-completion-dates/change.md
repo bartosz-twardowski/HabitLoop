@@ -1,10 +1,10 @@
 ---
 change_id: testing-completion-dates
 title: Integration tests for completion edge-case date handling
-status: impl_reviewed
+status: archived
 created: 2026-06-09
 updated: 2026-06-09
-archived_at: null
+archived_at: 2026-06-09T12:18:37Z
 ---
 
 ## Notes
