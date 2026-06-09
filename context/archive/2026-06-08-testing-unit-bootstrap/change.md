@@ -1,10 +1,10 @@
 ---
 change_id: testing-unit-bootstrap
 title: Unit test bootstrap for adaptive recommendations and API validation
-status: impl_reviewed
+status: archived
 created: 2026-06-08
-updated: 2026-06-08
-archived_at: null
+updated: 2026-06-09
+archived_at: 2026-06-09T07:38:00Z
 ---
 
 ## Notes
