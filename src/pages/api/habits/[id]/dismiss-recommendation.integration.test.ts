@@ -57,5 +57,6 @@ describe("POST /api/habits/[id]/dismiss-recommendation — ownership enforcement
     const body: unknown = await response.json();
     expect(body).toEqual({ error: "Habit not found" });
     expect(Object.keys(body as Record<string, unknown>)).toEqual(["error"]);
+    expect(client.eq).toHaveBeenCalledWith("user_id", "attacker-uuid");
   });
 });

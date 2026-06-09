@@ -56,5 +56,6 @@ describe("DELETE /api/habits/[id]/completions/[date] — ownership enforcement",
     const body: unknown = await response.json();
     expect(body).toEqual({ error: "Completion not found" });
     expect(Object.keys(body as Record<string, unknown>)).toEqual(["error"]);
+    expect(client.eq).toHaveBeenCalledWith("user_id", "attacker-uuid");
   });
 });
