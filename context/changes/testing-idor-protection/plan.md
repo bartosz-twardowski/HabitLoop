@@ -225,25 +225,25 @@ None. Integration tests call handler functions directly with mock data — no ne
 
 #### Automated
 
-- [x] 1.1 `npm test` passes with all existing + smoke tests green
-- [x] 1.2 `npm run build` succeeds
-- [x] 1.3 `npm run lint` passes
+- [x] 1.1 `npm test` passes with all existing + smoke tests green — 8b57e59
+- [x] 1.2 `npm run build` succeeds — 8b57e59
+- [x] 1.3 `npm run lint` passes — 8b57e59
 
 #### Manual
 
-- [x] 1.4 Mock client supports full chain pattern used by handlers
-- [x] 1.5 Context builder matches APIContext shape
+- [x] 1.4 Mock client supports full chain pattern used by handlers — 8b57e59
+- [x] 1.5 Context builder matches APIContext shape — 8b57e59
 
 ### Phase 2: IDOR Integration Tests
 
 #### Automated
 
-- [ ] 2.1 `npm test` passes with all tests green (unit + integration)
-- [ ] 2.2 `npm run build` succeeds
-- [ ] 2.3 `npm run lint` passes
+- [x] 2.1 `npm test` passes with all tests green (unit + integration)
+- [x] 2.2 `npm run build` succeeds
+- [x] 2.3 `npm run lint` passes
 
 #### Manual
 
-- [ ] 2.4 Scenario names clearly describe owner vs attacker
-- [ ] 2.5 No test imports production data or depends on database state
-- [ ] 2.6 Each 403 assertion checks for absence of habit/completion data
+- [x] 2.4 Scenario names clearly describe owner vs attacker
+- [x] 2.5 No test imports production data or depends on database state
+- [x] 2.6 Each 403 assertion checks for absence of habit/completion data
