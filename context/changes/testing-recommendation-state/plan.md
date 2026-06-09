@@ -133,11 +133,11 @@ Suites and test cases:
 ### Phase 1: Dismiss-recommendation and accept-recommendation integration tests
 
 #### Automated
-- [x] 1.1 Create dismiss-recommendation.integration.test.ts
-- [x] 1.2 Create index.integration.test.ts (PATCH)
-- [x] 1.3 Run vitest for dismiss test file — all pass
-- [x] 1.4 Run vitest for index test file — all pass
-- [x] 1.5 Run lint — no new errors
+- [x] 1.1 Create dismiss-recommendation.integration.test.ts — 56a90bc
+- [x] 1.2 Create index.integration.test.ts (PATCH) — 56a90bc
+- [x] 1.3 Run vitest for dismiss test file — all pass — 56a90bc
+- [x] 1.4 Run vitest for index test file — all pass — 56a90bc
+- [x] 1.5 Run lint — no new errors — 56a90bc
 
 #### Manual
-- [x] 1.6 Confirm test file structure matches existing integration test conventions
+- [x] 1.6 Confirm test file structure matches existing integration test conventions — 56a90bc
