@@ -165,21 +165,21 @@ Add a `describe("unauthenticated")` block to each of the 5 protected API endpoin
 
 #### Automated
 
-- [x] 1.1 Typecheck passes: npm run lint
-- [x] 1.2 All existing tests pass: npm run test
+- [x] 1.1 Typecheck passes: npm run lint — 6239bce
+- [x] 1.2 All existing tests pass: npm run test — 6239bce
 
 #### Manual
 
-- [x] 1.3 POST /api/habits without session returns 401 JSON
+- [x] 1.3 POST /api/habits without session returns 401 JSON — 6239bce
 
 ### Phase 2: Add unauthenticated test scenarios
 
 #### Automated
 
-- [ ] 2.1 All tests pass: npm run test
-- [ ] 2.2 Typecheck passes: npm run lint
+- [x] 2.1 All tests pass: npm run test
+- [x] 2.2 Typecheck passes: npm run lint
 
 #### Manual
 
-- [ ] 2.3 All 5 unauthenticated describe blocks report green
-- [ ] 2.4 No Supabase query called in unauthenticated tests
+- [x] 2.3 All 5 unauthenticated describe blocks report green
+- [x] 2.4 No Supabase query called in unauthenticated tests

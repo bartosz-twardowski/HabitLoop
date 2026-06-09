@@ -62,3 +62,31 @@ describe("PATCH /api/habits/[id] — ownership enforcement", () => {
     expect(client.eq).toHaveBeenCalledWith("user_id", "attacker-uuid");
   });
 });
+
+describe("PATCH /api/habits/[id] — unauthenticated", () => {
+  beforeEach(() => {
+    vi.resetModules();
+    vi.clearAllMocks();
+  });
+
+  it("returns 401 with Unauthorized error when user is not logged in", async () => {
+    const client = createMockSupabaseClient({ results: {} });
+    setupSupabaseMock(client);
+
+    const { PATCH } = await import("@/pages/api/habits/[id]/index");
+
+    const ctx = createMockContext({
+      user: null,
+      params: { id: "habit-1" },
+      method: "PATCH",
+      body: { frequency: 3 },
+    });
+
+    const response = await PATCH(ctx as never);
+
+    expect(response.status).toBe(401);
+    const body: unknown = await response.json();
+    expect(body).toEqual({ error: "Unauthorized" });
+    expect(client.from).not.toHaveBeenCalled();
+  });
+});

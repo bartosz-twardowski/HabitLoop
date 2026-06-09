@@ -59,3 +59,30 @@ describe("DELETE /api/habits/[id]/completions/[date] — ownership enforcement",
     expect(client.eq).toHaveBeenCalledWith("user_id", "attacker-uuid");
   });
 });
+
+describe("DELETE /api/habits/[id]/completions/[date] — unauthenticated", () => {
+  beforeEach(() => {
+    vi.resetModules();
+    vi.clearAllMocks();
+  });
+
+  it("returns 401 with Unauthorized error when user is not logged in", async () => {
+    const client = createMockSupabaseClient({ results: {} });
+    setupSupabaseMock(client);
+
+    const { DELETE } = await import("@/pages/api/habits/[id]/completions/[date]");
+
+    const ctx = createMockContext({
+      user: null,
+      params: { id: "habit-1", date: "2026-06-09" },
+      method: "DELETE",
+    });
+
+    const response = await DELETE(ctx as never);
+
+    expect(response.status).toBe(401);
+    const body: unknown = await response.json();
+    expect(body).toEqual({ error: "Unauthorized" });
+    expect(client.from).not.toHaveBeenCalled();
+  });
+});

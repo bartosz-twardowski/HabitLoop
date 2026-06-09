@@ -5,7 +5,7 @@ import { validateFrequency } from "@/lib/validation";
 export const POST: APIRoute = async (context) => {
   const supabase = createClient(context.request.headers, context.cookies);
   if (!supabase) {
-    return context.redirect(`/dashboard/new?error=${encodeURIComponent("Service unavailable")}`);
+    return Response.json({ error: "Service unavailable" }, { status: 503 });
   }
 
   const user = context.locals.user;

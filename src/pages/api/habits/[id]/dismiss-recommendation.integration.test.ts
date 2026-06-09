@@ -60,3 +60,30 @@ describe("POST /api/habits/[id]/dismiss-recommendation — ownership enforcement
     expect(client.eq).toHaveBeenCalledWith("user_id", "attacker-uuid");
   });
 });
+
+describe("POST /api/habits/[id]/dismiss-recommendation — unauthenticated", () => {
+  beforeEach(() => {
+    vi.resetModules();
+    vi.clearAllMocks();
+  });
+
+  it("returns 401 with Unauthorized error when user is not logged in", async () => {
+    const client = createMockSupabaseClient({ results: {} });
+    setupSupabaseMock(client);
+
+    const { POST } = await import("@/pages/api/habits/[id]/dismiss-recommendation");
+
+    const ctx = createMockContext({
+      user: null,
+      params: { id: "habit-1" },
+      method: "POST",
+    });
+
+    const response = await POST(ctx as never);
+
+    expect(response.status).toBe(401);
+    const body: unknown = await response.json();
+    expect(body).toEqual({ error: "Unauthorized" });
+    expect(client.from).not.toHaveBeenCalled();
+  });
+});
