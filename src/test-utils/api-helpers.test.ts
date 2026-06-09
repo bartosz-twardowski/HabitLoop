@@ -37,6 +37,7 @@ describe("api-helpers", () => {
 
   describe("PATCH handler smoke test", () => {
     beforeEach(() => {
+      vi.resetModules();
       vi.clearAllMocks();
     });
 
