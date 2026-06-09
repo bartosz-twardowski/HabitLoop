@@ -238,12 +238,12 @@ None. Integration tests call handler functions directly with mock data — no ne
 
 #### Automated
 
-- [x] 2.1 `npm test` passes with all tests green (unit + integration)
-- [x] 2.2 `npm run build` succeeds
-- [x] 2.3 `npm run lint` passes
+- [x] 2.1 `npm test` passes with all tests green (unit + integration) — fae697d
+- [x] 2.2 `npm run build` succeeds — fae697d
+- [x] 2.3 `npm run lint` passes — fae697d
 
 #### Manual
 
-- [x] 2.4 Scenario names clearly describe owner vs attacker
-- [x] 2.5 No test imports production data or depends on database state
-- [x] 2.6 Each 403 assertion checks for absence of habit/completion data
+- [x] 2.4 Scenario names clearly describe owner vs attacker — fae697d
+- [x] 2.5 No test imports production data or depends on database state — fae697d
+- [x] 2.6 Each 403 assertion checks for absence of habit/completion data — fae697d
