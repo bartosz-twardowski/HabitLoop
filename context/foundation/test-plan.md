@@ -6,7 +6,7 @@
 >
 > Refresh: re-run `/10x-test-plan --refresh` when stale (see S8).
 >
-> Last updated: 2026-06-10
+> Last updated: 2026-06-10 (Phase 3)
 
 ## 1. Strategy
 
@@ -67,7 +67,7 @@ orchestrator updates Status as artifacts appear on disk.
 |---|------------|-----------------|---------------|------------|--------|---------------|
 | 1 | Unit test bootstrap | Bootstrap Vitest and defend the adaptive recommendation logic and input validation at the cheapest layer | #1, #5 | unit | done | testing-unit-bootstrap |
 | 2 | API integration tests | Prove all API endpoints enforce ownership, auth, validation, and state transitions correctly | #2, #3, #4, #6 | integration | done | (feature change archives) |
-| 3 | CI quality gates | Wire unit + integration suites into CI; fail the PR if tests fail | cross-cutting | gates | not started | — |
+| 3 | CI quality gates | Wire unit + integration suites into CI; fail the PR if tests fail | cross-cutting | gates | done | testing-ci-gates |
 
 ## 4. Stack
 
