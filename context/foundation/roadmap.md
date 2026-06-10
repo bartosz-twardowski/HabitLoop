@@ -3,7 +3,7 @@ project: HabitLoop
 version: 1
 status: draft
 created: 2026-05-30
-updated: 2026-06-05
+updated: 2026-06-10
 prd_version: 1
 main_goal: speed
 top_blocker: decisions
@@ -29,7 +29,7 @@ Habit trackers that punish inconsistency push users to quit. HabitLoop takes a d
 
 | ID   | Change ID                  | Outcome (user can …)                                             | Prerequisites | PRD refs                                      | Status   |
 | ---- | -------------------------- | ---------------------------------------------------------------- | ------------- | --------------------------------------------- | -------- |
-| F-01 | data-schema                | (foundation) tabele habits + completions z RLS gotowe do użycia  | —             | FR-004, FR-005, FR-007                        | ready    |
+| F-01 | data-schema                | (foundation) tabele habits + completions z RLS gotowe do użycia  | —             | FR-004, FR-005, FR-007                        | done     |
 | S-01 | habit-creation-dashboard   | stworzyć nawyk i zobaczyć jego listę na dashboardzie             | F-01          | FR-001, FR-002, FR-003, FR-004, FR-010, US-02 | done     |
 | S-02 | completion-logging-history | zalogować ukończenie nawyku i zobaczyć historię ukończeń         | S-01          | FR-005, FR-006, US-02                         | done     |
 | S-03 | adaptive-recommendation    | zobaczyć adaptacyjną rekomendację i zaakceptować lub odrzucić ją | S-01, S-02    | FR-007, FR-008, FR-009, US-01                 | done     |
@@ -59,7 +59,7 @@ Foundations poniżej zakładają, że te warstwy są obecne i ich **nie** przebu
 - **Blockers:** —
 - **Unknowns:** —
 - **Risk:** Błąd w projekcie schematu (np. brak RLS, nieprawidłowy typ kolumny frequency, brakująca relacja FK) wymusi migrację korygującą w środku późniejszego slice. Bezpieczniej zaprojektować pełny schemat tutaj, zanim trasy API zaczną z niego korzystać.
-- **Status:** ready
+- **Status:** done
 
 ## Slices
 
@@ -125,6 +125,7 @@ Foundations poniżej zakładają, że te warstwy są obecne i ich **nie** przebu
 
 ## Done
 
+- **F-01: (foundation) tabele habits + completions z RLS gotowe do użycia** — Archived 2026-06-10 → inline w S-01/S-02 (brak osobnego change foldera). Lesson: —.
 - **S-01: użytkownik może stworzyć nawyk z nazwą i częstotliwością tygodniową oraz zobaczyć listę swoich nawyków na dashboardzie i przejść do widoku szczegółów dowolnego nawyku** — Archived 2026-06-03 → `context/archive/2026-06-03-habit-creation-dashboard/`. Lesson: —.
 - **S-02: użytkownik może zaznaczyć ukończenie nawyku na wybrany dzień (w tym przeszłe) oraz zobaczyć historię swoich ukończeń w widoku szczegółów nawyku** — Archived 2026-06-05 → `context/archive/2026-06-05-completion-logging-history/`. Lesson: —.
 - **S-03: użytkownik może zobaczyć na dashboardzie obliczoną rekomendację adaptacyjną (obniż / utrzymaj / podnieś cel) z prostym wyjaśnieniem przyczyny oraz zaakceptować lub odrzucić sugerowaną zmianę celu** — Archived 2026-06-05 → `context/archive/2026-06-05-adaptive-recommendation/`. Lesson: —.
