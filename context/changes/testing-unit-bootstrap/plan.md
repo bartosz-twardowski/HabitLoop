@@ -122,9 +122,9 @@ directly (`describe`, `it`, `expect`). Use the `@/` alias for imports (e.g.
 
 #### Automated
 
-- [x] 1.1 Tests pass: npm run test exits 0 with 0 failures
+- [x] 1.1 Tests pass: npm run test exits 0 with 0 failures — d3cfcdf
 
 #### Manual
 
-- [ ] 1.2 test-plan.md section 6.1 is filled in (no longer reads "TBD")
-- [ ] 1.3 Phase 1 row in the rollout table shows status done
+- [x] 1.2 test-plan.md section 6.1 is filled in (no longer reads "TBD") — d3cfcdf
+- [x] 1.3 Phase 1 row in the rollout table shows status done — d3cfcdf
