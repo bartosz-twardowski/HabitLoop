@@ -71,12 +71,11 @@ orchestrator updates Status as artifacts appear on disk.
 
 ## 4. Stack
 
-The classic test base for this project. No test infrastructure exists yet;
-Phase 1 bootstraps the runner.
+The test base for this project. Vitest 4.1.8 is fully operational with 91 tests across 8 files.
 
 | Layer | Tool | Version | Notes |
 |-------|------|---------|-------|
-| unit + integration | Vitest | 4.1.8 | Natural choice for Vite-based Astro stack |
+| unit + integration | Vitest | 4.1.8 | Natural choice for Vite-based Astro stack; 91 tests across 8 files |
 | API mocking | none yet — see Phase 2 | — | Supabase test context needed for integration tests |
 | e2e | none yet | — | Not scoped in this rollout; add via --refresh when floor is locked |
 | accessibility | none yet | — | Not scoped in this rollout |

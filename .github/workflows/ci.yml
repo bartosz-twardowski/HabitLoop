@@ -16,9 +16,10 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      - run: npx astro sync
+      - run: ./node_modules/.bin/astro sync
       - run: npm run test
       - run: npm run lint
+      # Tests use mocked Supabase — real credentials needed only at build time
       - run: npm run build
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
