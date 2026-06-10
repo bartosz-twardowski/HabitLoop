@@ -1,10 +1,10 @@
 ---
 change_id: testing-unit-bootstrap
 title: Bootstrap Vitest and unit-test the adaptive recommendation logic and input validation
-status: implemented
+status: archived
 created: 2026-06-09
 updated: 2026-06-10
-archived_at: null
+archived_at: 2026-06-10T05:27:43Z
 ---
 
 ## Notes
