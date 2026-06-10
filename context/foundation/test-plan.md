@@ -65,7 +65,7 @@ orchestrator updates Status as artifacts appear on disk.
 
 | # | Phase name | Goal (one line) | Risks covered | Test types | Status | Change folder |
 |---|------------|-----------------|---------------|------------|--------|---------------|
-| 1 | Unit test bootstrap | Bootstrap Vitest and defend the adaptive recommendation logic and input validation at the cheapest layer | #1, #5 | unit | change opened | testing-unit-bootstrap |
+| 1 | Unit test bootstrap | Bootstrap Vitest and defend the adaptive recommendation logic and input validation at the cheapest layer | #1, #5 | unit | done | testing-unit-bootstrap |
 | 2 | API integration tests | Prove all API endpoints enforce ownership, auth, validation, and state transitions correctly | #2, #3, #4, #6 | integration | not started | — |
 | 3 | CI quality gates | Wire unit + integration suites into CI; fail the PR if tests fail | cross-cutting | gates | not started | — |
 
@@ -108,7 +108,17 @@ the relevant rollout phase ships; before that, the sub-section reads
 
 ### 6.1 Adding a unit test
 
-TBD — see S3 Phase 1 for adaptive recommendation logic and input validation patterns.
+Unit tests live in `src/lib/*.test.ts` alongside the module under test. Import from `vitest`
+directly (`describe`, `it`, `expect`). Use the `@/` alias for imports (e.g.
+`import { computeRecommendation } from "@/lib/recommendation"`).
+
+**Rules for this project:**
+- Expected values must be hand-calculated from PRD business rules, never derived by running the
+  implementation and copying the output (oracle anti-pattern).
+- Name tests as complete sentences: `"returns lower when completions are below target"`.
+- For `computeRecommendation`, always pin `today` to a fixed UTC date to keep tests deterministic
+  across timezones and CI runs.
+- Run with `npm run test` (one-shot) or `npm run test:watch` (interactive).
 
 ### 6.2 Adding an integration test
 
