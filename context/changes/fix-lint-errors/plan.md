@@ -111,6 +111,11 @@ manually per L-002 — the `>` redirect is the only write mechanism.
 **Contract**: `npm run lint:fix` exits without error. Only `src/pages/api/habits/index.ts` is
 expected to be modified by this step.
 
+**Actual outcome (impl-review note)**: `src/pages/api/habits/index.ts` did not appear in the
+committed diff. The file is LF-clean in the working tree — git's `autocrlf` normalization
+resolved the CRLF endings at stage time, so git saw no delta. Practical result is correct
+(lint exits 0, file is clean); the mechanism was git normalization, not a committed file edit.
+
 ### Success Criteria
 
 #### Automated Verification
@@ -185,20 +190,20 @@ exits 0.
 
 #### Automated
 
-- [x] 1.1 npm run lint exits 0 with 0 errors
-- [x] 1.2 npm run test exits 0 with 91 tests passing
+- [x] 1.1 npm run lint exits 0 with 0 errors — e8ef1ec
+- [x] 1.2 npm run test exits 0 with 91 tests passing — e8ef1ec
 
 #### Manual
 
-- [x] 1.3 database.ts visually confirmed: habits and completions tables present under public.Tables
+- [x] 1.3 database.ts visually confirmed: habits and completions tables present under public.Tables — e8ef1ec
 
 ### Phase 2: Residual manual fixes (conditional)
 
 #### Automated
 
-- [ ] 2.1 npm run lint exits 0 with 0 errors
-- [ ] 2.2 npm run test exits 0 with 91 tests passing
+- [x] 2.1 npm run lint exits 0 with 0 errors
+- [x] 2.2 npm run test exits 0 with 91 tests passing
 
 #### Manual
 
-- [ ] 2.3 No as any casts introduced; each eslint-disable has explanatory inline comment
+- [x] 2.3 No as any casts introduced; each eslint-disable has explanatory inline comment

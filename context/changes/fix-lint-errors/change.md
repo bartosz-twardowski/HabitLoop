@@ -1,7 +1,7 @@
 ---
 change_id: fix-lint-errors
 title: Fix pre-existing ESLint errors blocking CI
-status: implementing
+status: implemented
 created: 2026-06-10
 updated: 2026-06-10
 archived_at: null
