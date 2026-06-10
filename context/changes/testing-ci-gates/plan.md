@@ -106,10 +106,10 @@ to today (`2026-06-10`).
 
 #### Automated
 
-- [x] 1.1 npm run test passes with 0 failures
-- [x] 1.2 npm run lint passes with 0 errors
+- [x] 1.1 npm run test passes with 0 failures — 2c7623f
+- [x] 1.2 npm run lint passes with 0 errors — 2c7623f
 
 #### Manual
 
-- [x] 1.3 ci.yml reviewed: main in triggers, test step between astro sync and lint, no env block
-- [x] 1.4 test-plan.md reviewed: Phase 3 row shows done and testing-ci-gates
+- [x] 1.3 ci.yml reviewed: main in triggers, test step between astro sync and lint, no env block — 2c7623f
+- [x] 1.4 test-plan.md reviewed: Phase 3 row shows done and testing-ci-gates — 2c7623f
