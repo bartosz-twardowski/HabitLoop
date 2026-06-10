@@ -6,7 +6,7 @@
 >
 > Refresh: re-run `/10x-test-plan --refresh` when stale (see S8).
 >
-> Last updated: 2026-06-08
+> Last updated: 2026-06-10
 
 ## 1. Strategy
 
@@ -66,7 +66,7 @@ orchestrator updates Status as artifacts appear on disk.
 | # | Phase name | Goal (one line) | Risks covered | Test types | Status | Change folder |
 |---|------------|-----------------|---------------|------------|--------|---------------|
 | 1 | Unit test bootstrap | Bootstrap Vitest and defend the adaptive recommendation logic and input validation at the cheapest layer | #1, #5 | unit | done | testing-unit-bootstrap |
-| 2 | API integration tests | Prove all API endpoints enforce ownership, auth, validation, and state transitions correctly | #2, #3, #4, #6 | integration | not started | — |
+| 2 | API integration tests | Prove all API endpoints enforce ownership, auth, validation, and state transitions correctly | #2, #3, #4, #6 | integration | done | (feature change archives) |
 | 3 | CI quality gates | Wire unit + integration suites into CI; fail the PR if tests fail | cross-cutting | gates | not started | — |
 
 ## 4. Stack
@@ -76,7 +76,7 @@ Phase 1 bootstraps the runner.
 
 | Layer | Tool | Version | Notes |
 |-------|------|---------|-------|
-| unit + integration | Vitest | none yet — see Phase 1 | Natural choice for Vite-based Astro stack |
+| unit + integration | Vitest | 4.1.8 | Natural choice for Vite-based Astro stack |
 | API mocking | none yet — see Phase 2 | — | Supabase test context needed for integration tests |
 | e2e | none yet | — | Not scoped in this rollout; add via --refresh when floor is locked |
 | accessibility | none yet | — | Not scoped in this rollout |
@@ -122,15 +122,66 @@ directly (`describe`, `it`, `expect`). Use the `@/` alias for imports (e.g.
 
 ### 6.2 Adding an integration test
 
-TBD — see S3 Phase 2 for API endpoint ownership/auth/validation/state-transition patterns.
+Integration tests live in `src/pages/api/**/*.integration.test.ts` alongside the handler under
+test. They use the shared mock harness from `@/test-utils/api-helpers`.
+
+**Setup boilerplate (every integration test file):**
+```ts
+import { describe, it, expect, vi, beforeEach } from "vitest";
+import { createMockSupabaseClient, createMockContext, setupSupabaseMock } from "@/test-utils/api-helpers";
+
+vi.mock("@/lib/supabase", () => ({ createClient: vi.fn() }));
+```
+
+**Each `describe` block must call in `beforeEach`:**
+```ts
+beforeEach(() => {
+  vi.resetModules();
+  vi.clearAllMocks();
+});
+```
+
+**Dynamic import after mock setup (required for module isolation):**
+```ts
+const { POST } = await import("@/pages/api/habits/[id]/completions/index");
+```
+
+**Mandatory test cases for every endpoint:**
+1. **Unauthenticated** — `createMockContext({ user: null, ... })` → expect 401 + `{ error: "Unauthorized" }` + `expect(client.from).not.toHaveBeenCalled()`.
+2. **Wrong owner (IDOR)** — `"habits.maybeSingle": { data: null, error: null }` → expect 403 + no data leaked + assert `client.eq` spy was called with `("user_id", attackerId)`.
+3. **Happy path** — real owner, valid input → expect 2xx + correct response body + **always assert `client.eq` spy** (`expect(client.eq).toHaveBeenCalledWith("user_id", ownerId)`) — see L-004.
+
+**`createMockSupabaseClient` result keys** follow the pattern `"<table>.<terminal-method>"`,
+e.g. `"habits.maybeSingle"`, `"completions.single"`. Set `data: null, error: { code: "23505", ... }`
+to simulate a duplicate-key conflict.
 
 ### 6.3 Adding a test for a new API endpoint
 
-TBD — see S3 Phase 2 for the canonical API integration test pattern covering auth, ownership, validation, and side-effects.
+Checklist when writing tests for a brand-new API route:
+
+- [ ] `401` — no session (`user: null`) → handler returns before touching DB
+- [ ] `403` — valid session, wrong owner → ownership `.maybeSingle()` returns `null`
+- [ ] `400` — each invalid input variant (missing field, wrong type, out-of-range value)
+- [ ] `2xx` — happy path: owner + valid input → correct status + body + `client.eq` spy asserted (L-004)
+- [ ] `409` — duplicate-key conflict where applicable (`error.code === "23505"`)
+- [ ] `500` — generic DB error (`data: null, error: { message: "DB error" }`)
+
+File naming: `<handler-file>.integration.test.ts` next to the handler.
+Import only from `@/test-utils/api-helpers` — do not write ad-hoc mock factories.
 
 ### 6.4 Per-rollout-phase notes
 
-(After each phase lands, /10x-implement appends a 2-3 line note here capturing anything surprising.)
+**Phase 1 (testing-unit-bootstrap):** Vitest 4.1.8 and both test files (`recommendation.test.ts`,
+`validation.test.ts`) were already present when the phase opened — the change was verify + document
+only. No new test code was written. Oracle anti-pattern guidance (hand-calculate from PRD rules,
+never copy implementation output) is the most important rule to carry forward.
+
+**Phase 2 (API integration tests):** Tests were written inline with each feature slice rather than
+as a dedicated test phase — no separate change folder was opened. The shared mock harness
+(`src/test-utils/api-helpers.ts`) is the load-bearing piece: `createMockSupabaseClient`,
+`createMockContext`, `setupSupabaseMock`. L-004 (always assert `client.eq` spy on happy-path
+ownership tests) was codified after impl-review caught two missing spy assertions in
+`testing-recommendation-state`.
 
 ## 7. What We Deliberately Don't Test
 
