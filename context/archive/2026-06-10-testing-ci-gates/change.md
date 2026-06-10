@@ -1,10 +1,10 @@
 ---
 change_id: testing-ci-gates
 title: Wire unit and integration tests into CI quality gate
-status: impl_reviewed
+status: archived
 created: 2026-06-10
 updated: 2026-06-10
-archived_at: null
+archived_at: 2026-06-10T07:56:03Z
 ---
 
 ## Notes
