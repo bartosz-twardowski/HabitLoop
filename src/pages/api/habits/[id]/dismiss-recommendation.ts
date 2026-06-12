@@ -18,7 +18,16 @@ export const POST: APIRoute = async (context) => {
   }
 
   // Ownership check per L-001 — verify before update
-  const { data: habit } = await supabase.from("habits").select("id").eq("id", id).eq("user_id", user.id).maybeSingle();
+  const { data: habit, error: habitError } = await supabase
+    .from("habits")
+    .select("id")
+    .eq("id", id)
+    .eq("user_id", user.id)
+    .maybeSingle();
+
+  if (habitError) {
+    return Response.json({ error: habitError.message }, { status: 500 });
+  }
 
   if (!habit) {
     return Response.json({ error: "Habit not found" }, { status: 403 });
