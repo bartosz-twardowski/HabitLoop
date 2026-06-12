@@ -381,22 +381,22 @@ project (local for local runs, cloud for CI). This is documented in
 #### Automated
 
 - [x] 2.1 `npx playwright test --list` shows exactly 2 tests in smoke.spec.ts
-- [x] 2.2 `npm run test:e2e` exits 0 with valid `.env.test`
-- [x] 2.3 Test 1 (redirect guard) passes with no credentials in `.env.test`
+- [x] 2.2 `npm run test:e2e` exits 0 with valid `.env.test` — 3419c0c
+- [x] 2.3 Test 1 (redirect guard) passes with no credentials in `.env.test` — 3419c0c
 
 #### Manual
 
-- [x] 2.4 Both tests pass in Playwright terminal output with real credentials
-- [x] 2.5 Wrong password causes test 2 to fail with clear error message
+- [x] 2.4 Both tests pass in Playwright terminal output with real credentials — 3419c0c
+- [x] 2.5 Wrong password causes test 2 to fail with clear error message — 3419c0c
 
 ### Phase 3: CI integration
 
 #### Automated
 
-- [ ] 3.1 `npm run lint` passes after ci.yml edit
+- [x] 3.1 `npm run lint` passes after ci.yml edit
 
 #### Manual
 
-- [ ] 3.2 `e2e-smoke` job appears in GitHub Actions on a PR
-- [ ] 3.3 Job passes with `TEST_USER_EMAIL` and `TEST_USER_PASSWORD` secrets set
-- [ ] 3.4 Job fails when `TEST_USER_EMAIL` secret is absent
+- [x] 3.2 `e2e-smoke` job appears in GitHub Actions on a PR
+- [x] 3.3 Job passes with `TEST_USER_EMAIL` and `TEST_USER_PASSWORD` secrets set
+- [x] 3.4 Job fails when `TEST_USER_EMAIL` secret is absent
