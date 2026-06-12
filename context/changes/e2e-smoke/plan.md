@@ -368,7 +368,7 @@ project (local for local runs, cloud for CI). This is documented in
 #### Automated
 
 - [x] 1.1 `npm install -D dotenv` completes; dotenv in devDependencies — 3ce9a71
-- [x] 1.2 `npx playwright test --list` exits 0 (after Phase 2 test file lands)
+- [x] 1.2 `npx playwright test --list` exits 0 (after Phase 2 test file lands) — 3419c0c
 - [x] 1.3 `npm run lint` passes after config changes — 3ce9a71
 
 #### Manual
@@ -380,7 +380,7 @@ project (local for local runs, cloud for CI). This is documented in
 
 #### Automated
 
-- [x] 2.1 `npx playwright test --list` shows exactly 2 tests in smoke.spec.ts
+- [x] 2.1 `npx playwright test --list` shows exactly 2 tests in smoke.spec.ts — 3419c0c
 - [x] 2.2 `npm run test:e2e` exits 0 with valid `.env.test` — 3419c0c
 - [x] 2.3 Test 1 (redirect guard) passes with no credentials in `.env.test` — 3419c0c
 
