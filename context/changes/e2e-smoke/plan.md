@@ -393,10 +393,10 @@ project (local for local runs, cloud for CI). This is documented in
 
 #### Automated
 
-- [x] 3.1 `npm run lint` passes after ci.yml edit
+- [x] 3.1 `npm run lint` passes after ci.yml edit — ed52357
 
 #### Manual
 
-- [x] 3.2 `e2e-smoke` job appears in GitHub Actions on a PR
-- [x] 3.3 Job passes with `TEST_USER_EMAIL` and `TEST_USER_PASSWORD` secrets set
-- [x] 3.4 Job fails when `TEST_USER_EMAIL` secret is absent
+- [x] 3.2 `e2e-smoke` job appears in GitHub Actions on a PR — ed52357
+- [x] 3.3 Job passes with `TEST_USER_EMAIL` and `TEST_USER_PASSWORD` secrets set — ed52357
+- [x] 3.4 Job fails when `TEST_USER_EMAIL` secret is absent — ed52357
