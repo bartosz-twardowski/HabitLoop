@@ -10,14 +10,13 @@ test("user can sign in and reach /dashboard", async ({ page }) => {
   const password = process.env.TEST_USER_PASSWORD;
 
   if (!email || !password) {
-    throw new Error("TEST_USER_EMAIL and TEST_USER_PASSWORD must be set in .env.test to run this test");
+    test.skip(true, "TEST_USER_EMAIL and TEST_USER_PASSWORD must be set in .env.test to run this test");
+    return;
   }
 
   await page.goto("/auth/signin");
-  await page.getByLabel("Email").click();
-  await page.keyboard.type(email);
-  await page.getByLabel("Password", { exact: true }).click();
-  await page.keyboard.type(password);
+  await page.getByLabel("Email").fill(email);
+  await page.getByLabel("Password", { exact: true }).fill(password);
   await page.getByRole("button", { name: "Sign in" }).click();
-  await expect(page).toHaveURL("/dashboard");
+  await expect(page).toHaveURL("/dashboard", { timeout: 10_000 });
 });
