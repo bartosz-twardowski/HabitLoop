@@ -367,27 +367,27 @@ project (local for local runs, cloud for CI). This is documented in
 
 #### Automated
 
-- [x] 1.1 `npm install -D dotenv` completes; dotenv in devDependencies
-- [ ] 1.2 `npx playwright test --list` exits 0 (after Phase 2 test file lands)
-- [x] 1.3 `npm run lint` passes after config changes
+- [x] 1.1 `npm install -D dotenv` completes; dotenv in devDependencies — 3ce9a71
+- [x] 1.2 `npx playwright test --list` exits 0 (after Phase 2 test file lands)
+- [x] 1.3 `npm run lint` passes after config changes — 3ce9a71
 
 #### Manual
 
-- [x] 1.4 `.gitignore` shows `.env.test` in env section
-- [x] 1.5 `.env.test.example` shows both variable names with empty values
+- [x] 1.4 `.gitignore` shows `.env.test` in env section — 3ce9a71
+- [x] 1.5 `.env.test.example` shows both variable names with empty values — 3ce9a71
 
 ### Phase 2: Smoke test file
 
 #### Automated
 
-- [ ] 2.1 `npx playwright test --list` shows exactly 2 tests in smoke.spec.ts
-- [ ] 2.2 `npm run test:e2e` exits 0 with valid `.env.test`
-- [ ] 2.3 Test 1 (redirect guard) passes with no credentials in `.env.test`
+- [x] 2.1 `npx playwright test --list` shows exactly 2 tests in smoke.spec.ts
+- [x] 2.2 `npm run test:e2e` exits 0 with valid `.env.test`
+- [x] 2.3 Test 1 (redirect guard) passes with no credentials in `.env.test`
 
 #### Manual
 
-- [ ] 2.4 Both tests pass in Playwright terminal output with real credentials
-- [ ] 2.5 Wrong password causes test 2 to fail with clear error message
+- [x] 2.4 Both tests pass in Playwright terminal output with real credentials
+- [x] 2.5 Wrong password causes test 2 to fail with clear error message
 
 ### Phase 3: CI integration
 
