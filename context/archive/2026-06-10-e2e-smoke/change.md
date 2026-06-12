@@ -1,10 +1,10 @@
 ---
 change_id: e2e-smoke
 title: E2e smoke
-status: impl_reviewed
+status: archived
 created: 2026-06-10
 updated: 2026-06-12
-archived_at: null
+archived_at: 2026-06-12T08:53:44Z
 ---
 
 ## Notes
